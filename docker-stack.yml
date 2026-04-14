@@ -1,8 +1,5 @@
 version: '3.8'
 
-# Deploy: docker stack deploy -c docker-stack.yml social
-# Requer: network "Rodrigo" existente (overlay do Traefik)
-
 services:
   social:
     image: social:latest
@@ -24,11 +21,10 @@ services:
         condition: any
       labels:
         - traefik.enable=true
-        - traefik.docker.network=Rodrigo
-        - traefik.swarm.network=Rodrigo
-        - traefik.http.routers.social.rule=Host(`social.liveuni.com.br`)
         - traefik.http.routers.social.entrypoints=websecure
-        - traefik.http.routers.social.tls=true
+        - traefik.http.routers.social.priority=10
+        - traefik.http.routers.social.rule=Host(`social.liveuni.com.br`)
+        - traefik.http.routers.social.service=social
         - traefik.http.routers.social.tls.certresolver=letsencryptresolver
         - traefik.http.services.social.loadbalancer.server.port=3000
 
