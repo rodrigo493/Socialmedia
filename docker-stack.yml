@@ -1,21 +1,19 @@
 version: '3.8'
 
-# Deploy: docker stack deploy -c docker-stack.yml social --with-registry-auth
-# Requer: network traefik-ext existente + bind mounts configurados
+# Deploy: docker stack deploy -c docker-stack.yml social
+# Requer: network "Rodrigo" existente (overlay do Traefik)
 
 services:
   social:
     image: social:latest
     networks:
-      - traefik-ext
+      - Rodrigo
     volumes:
-      # Dados persistentes (fora do container)
       - /opt/social/data/api:/app/apps/api/data
       - /opt/social/data/output:/app/squads/live-social-media/output
       - /opt/social/data/products:/app/squads/live-social-media/_products
       - /opt/social/data/memory:/app/_opensquad/_memory
       - /opt/social/data/browser-profile:/app/_opensquad/_browser_profile
-      # Secrets (read-only)
       - /opt/social/secrets/.env:/app/apps/api/.env:ro
       - /opt/social/secrets/gcp-service-account.json:/app/apps/api/gcp-service-account.json:ro
     deploy:
@@ -26,19 +24,14 @@ services:
         condition: any
       labels:
         - traefik.enable=true
-        - traefik.docker.network=traefik-ext
+        - traefik.docker.network=Rodrigo
+        - traefik.swarm.network=Rodrigo
         - traefik.http.routers.social.rule=Host(`social.liveuni.com.br`)
         - traefik.http.routers.social.entrypoints=websecure
         - traefik.http.routers.social.tls=true
-        - traefik.http.routers.social.tls.certresolver=letsencrypt
+        - traefik.http.routers.social.tls.certresolver=letsencryptresolver
         - traefik.http.services.social.loadbalancer.server.port=3000
-        # Redirect HTTP -> HTTPS
-        - traefik.http.routers.social-http.rule=Host(`social.liveuni.com.br`)
-        - traefik.http.routers.social-http.entrypoints=web
-        - traefik.http.routers.social-http.middlewares=social-redirect@docker
-        - traefik.http.middlewares.social-redirect.redirectscheme.scheme=https
-        - traefik.http.middlewares.social-redirect.redirectscheme.permanent=true
 
 networks:
-  traefik-ext:
+  Rodrigo:
     external: true
