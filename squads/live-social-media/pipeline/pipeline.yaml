@@ -1,0 +1,25 @@
+squad: live-social-media
+name: "Pipeline de Conteúdo Live Social Media"
+description: "Pesquisa → Criação → Aprovação → Revisão → Publicação"
+
+checkpoints:
+  - step-01-foco-da-semana.md
+  - step-03-direcao-aprovada.md
+  - step-11-aprovacao-conteudo.md
+  - step-13-aprovacao-final.md
+
+steps:
+  - step-01-foco-da-semana.md
+  - step-02-pesquisa.md
+  - step-03-direcao-aprovada.md
+  - step-04-reels.md
+  - step-05-carrossel.md
+  - step-06-stories.md
+  - step-07-tiktok.md
+  - step-08-landing-page.md
+  - step-09-ad-creative.md
+  - step-10-influencer.md
+  - step-11-aprovacao-conteudo.md
+  - step-12-revisao.md
+  - step-13-aprovacao-final.md
+  - step-14-publicacao.md

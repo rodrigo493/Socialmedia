@@ -1,0 +1,58 @@
+squad_code: "live-social-media"
+purpose: "Pesquisar tendências de mercado e produzir conteúdo estratégico de alto valor para donos de studio e academia — Reels, roteiros virais, vídeos, carrosséis, stories, landing pages e criativos para tráfego pago — publicando no Instagram e TikTok somente após aprovação do usuário"
+domain: "content"
+
+company:
+  name: "Live Universe"
+  tone: "Direto, estratégico, provocativo com autoridade — fala de negócio, não só de produto"
+  products: "Equipamentos patenteados de Pilates e funcional (V12, V6, V5 Reformer, Chair, Cadillac), Método LiveX, LIVEX Studio, V12X Training, Live University"
+
+language: "Português (Brasil)"
+
+context:
+  audience: "Donos e sócios de studios de Pilates e academias premium (B2B) — O Operador Estratégico do Fitness: 30–50 anos, pragmático, cético com promessas, travado no próximo nível de crescimento"
+  platforms: "Instagram (Feed, Reels, Stories) e TikTok"
+  tone: "Mix rotativo — provocativo (agitação de problema), educativo (valor antecipado), autoridade (social proof e posicionamento) — conforme formato e semana do plano"
+  strategy_base: |
+    Plano de 30 dias estruturado em 4 semanas:
+    - Semana 1: Despertar + Agitação de Problema ("Por que 90% dos studios falham em 2 anos")
+    - Semana 2: Autoridade + Educação ("Os segredos que studios milionários não querem que você saiba")
+    - Semana 3: Demonstração + Social Proof ("Como equipamentos LIVE geraram R$50.000+ extras mensais")
+    - Semana 4: Oferta + Urgência ("Últimas vagas para exclusividade regional")
+    Princípios: Value in Advance, Problem Agitation, Social Proof, Scarcity & Urgency, Authority Building
+    Meta: 300+ leads qualificados em 30 dias
+  formats_requested: "Reels, roteiros virais, vídeos, carrosséis, stories, landing pages, criativos para tráfego pago"
+  checkpoint: "Squad deve apresentar TODO conteúdo para revisão e aprovação do usuário ANTES de qualquer publicação"
+  posting_approval: true
+
+tools_needed:
+  - "web-browsing"
+  - "file-writing"
+  - "playwright-browser"
+
+investigation:
+  enabled: true
+  profiles:
+    - url: "https://www.instagram.com/metalifepilates"
+      platform: "instagram"
+      investigation_mode: "profile_3"
+    - url: "https://www.instagram.com/equipilates_oficial"
+      platform: "instagram"
+      investigation_mode: "profile_3"
+    - url: "https://www.instagram.com/vollpilatesgroup"
+      platform: "instagram"
+      investigation_mode: "profile_3"
+    - url: "https://www.instagram.com/rafael.voll"
+      platform: "instagram"
+      investigation_mode: "profile_3"
+    - url: "https://www.instagram.com/technogym_brazil"
+      platform: "instagram"
+      investigation_mode: "profile_3"
+
+target_formats:
+  - "instagram-feed"
+  - "instagram-reels"
+  - "instagram-stories"
+  - "tiktok"
+  - "landing-page"
+  - "ad-creative"

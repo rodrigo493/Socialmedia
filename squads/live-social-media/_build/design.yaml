@@ -1,0 +1,279 @@
+# Design output — gerado pela fase de Design
+# Input: discovery.yaml + research + investigation (4 perfis)
+
+squad:
+  code: "live-social-media"
+  name: "Live Social Media"
+  description: "Produção de conteúdo estratégico B2B para donos de studio — Reels, carrosséis, Stories, TikTok, landing pages, criativos para tráfego pago e influencers digitais"
+
+agents:
+  - id: "henrique-horizonte"
+    name: "Henrique Horizonte"
+    title: "Pesquisador Estratégico"
+    icon: "🔭"
+    execution: "subagent"
+    role_summary: "Pesquisa tendências de mercado, dados do segmento fitness B2B e temas relevantes para a semana de conteúdo"
+    skills: ["web_search", "web_fetch"]
+    tasks:
+      - name: "research-trends"
+        file: "tasks/research-trends.md"
+        description: "Pesquisa tendências, dados de concorrentes e insights de mercado para a semana"
+
+  - id: "giovana-gancho"
+    name: "Giovana Gancho"
+    title: "Criadora de Reels"
+    icon: "🎬"
+    execution: "subagent"
+    role_summary: "Cria roteiros completos de Reels para Instagram com estrutura Hook→Setup→Delivery→CTA"
+    skills: []
+    tasks:
+      - name: "create-reel"
+        file: "tasks/create-reel.md"
+        description: "Cria roteiro completo de Reel com script, legenda e direção de áudio"
+
+  - id: "caio-carrossel"
+    name: "Caio Carrossel"
+    title: "Criador de Feed/Carrossel"
+    icon: "🃏"
+    execution: "subagent"
+    role_summary: "Cria carrosséis educativos B2B para Instagram Feed no formato dialógico"
+    skills: ["image-ai-generator"]
+    tasks:
+      - name: "create-carousel"
+        file: "tasks/create-carousel.md"
+        description: "Cria carrossel completo com slides, caption e hashtags"
+
+  - id: "elisa-efemera"
+    name: "Elisa Efêmera"
+    title: "Criadora de Stories"
+    icon: "✨"
+    execution: "subagent"
+    role_summary: "Cria sequências de 3-7 frames de Instagram Stories com elementos interativos"
+    skills: []
+    tasks:
+      - name: "create-stories"
+        file: "tasks/create-stories.md"
+        description: "Cria sequência completa de Stories com frames, elementos interativos e CTA"
+
+  - id: "davi-destaque"
+    name: "Davi Destaque"
+    title: "Criador de TikTok"
+    icon: "🎵"
+    execution: "subagent"
+    role_summary: "Cria roteiros nativos para TikTok com linguagem, ritmo e referências específicas da plataforma"
+    skills: []
+    tasks:
+      - name: "create-tiktok"
+        file: "tasks/create-tiktok.md"
+        description: "Cria roteiro completo de vídeo TikTok com script e direção visual"
+
+  - id: "fabio-funil"
+    name: "Fábio Funil"
+    title: "Criador de Landing Pages"
+    icon: "🚀"
+    execution: "inline"
+    role_summary: "Cria copy completo de landing pages para captura de leads de donos de studio"
+    skills: []
+    tasks:
+      - name: "create-landing-page"
+        file: "tasks/create-landing-page.md"
+        description: "Cria copy completo de landing page: hero, agitação de dor, solução, prova social, FAQ e CTA"
+
+  - id: "amanda-anuncio"
+    name: "Amanda Anúncio"
+    title: "Criadora de Criativos"
+    icon: "📢"
+    execution: "subagent"
+    role_summary: "Cria copies e direção visual de anúncios para tráfego pago (Meta Ads e TikTok Ads)"
+    skills: ["image-ai-generator"]
+    tasks:
+      - name: "create-ad-creative"
+        file: "tasks/create-ad-creative.md"
+        description: "Cria criativos completos para anúncios pagos com copy, direção visual e targeting"
+
+  - id: "iris-influencer"
+    name: "Iris Influencer"
+    title: "Criadora de Personas Digitais"
+    icon: "🧬"
+    execution: "inline"
+    role_summary: "Define e cria influencers digitais completos para a Live Universe — persona, prompts para Nano Banana Pro, character sheet 4 ângulos e roteiro para Google AI Studio"
+    skills: ["image-ai-generator"]
+    tasks:
+      - name: "create-influencer-persona"
+        file: "tasks/create-influencer-persona.md"
+        description: "Define a persona completa da influencer digital (nome, perfil, tom, propósito para a Live)"
+      - name: "generate-character-sheet"
+        file: "tasks/generate-character-sheet.md"
+        description: "Gera os 4 prompts de ângulo (frente, costas, direita, esquerda) para Nano Banana Pro e character sheet"
+      - name: "create-video-script"
+        file: "tasks/create-video-script.md"
+        description: "Cria roteiro de vídeo e prompt para Google AI Studio (Veo 3)"
+
+  - id: "bruno-balizador"
+    name: "Bruno Balizador"
+    title: "Revisor de Qualidade"
+    icon: "✅"
+    execution: "inline"
+    role_summary: "Avalia todo o conteúdo produzido, emite veredicto APPROVE/REJECT com score e feedback acionável"
+    skills: []
+    tasks:
+      - name: "review"
+        file: "tasks/review.md"
+        description: "Revisão completa de todo o conteúdo produzido na rodada — score, feedback e veredicto"
+
+  - id: "paula-postagem"
+    name: "Paula Postagem"
+    title: "Publicadora"
+    icon: "📱"
+    execution: "subagent"
+    role_summary: "Publica conteúdo aprovado via Blotato para Instagram e TikTok — sempre após checkpoint obrigatório"
+    skills: ["blotato", "instagram-publisher"]
+    tasks:
+      - name: "publish"
+        file: "tasks/publish.md"
+        description: "Publica conteúdo aprovado nas plataformas via Blotato"
+
+pipeline:
+  - step: 1
+    name: "foco-da-semana"
+    type: "checkpoint"
+    output_file: "squads/live-social-media/output/research-focus.md"
+
+  - step: 2
+    name: "pesquisa"
+    type: "agent"
+    agent: "henrique-horizonte"
+    execution: "subagent"
+    input_file: "squads/live-social-media/output/research-focus.md"
+    output_file: "squads/live-social-media/output/research-results.md"
+    model_tier: "powerful"
+
+  - step: 3
+    name: "direcao-aprovada"
+    type: "checkpoint"
+
+  - step: 4
+    name: "reels"
+    type: "agent"
+    agent: "giovana-gancho"
+    execution: "subagent"
+    format: "instagram-reels"
+    input_file: "squads/live-social-media/output/research-results.md"
+    output_file: "squads/live-social-media/output/content-reels.md"
+    model_tier: "powerful"
+
+  - step: 5
+    name: "carrossel"
+    type: "agent"
+    agent: "caio-carrossel"
+    execution: "subagent"
+    format: "instagram-feed"
+    input_file: "squads/live-social-media/output/research-results.md"
+    output_file: "squads/live-social-media/output/content-carousel.md"
+    model_tier: "powerful"
+
+  - step: 6
+    name: "stories"
+    type: "agent"
+    agent: "elisa-efemera"
+    execution: "subagent"
+    format: "instagram-stories"
+    input_file: "squads/live-social-media/output/research-results.md"
+    output_file: "squads/live-social-media/output/content-stories.md"
+    model_tier: "powerful"
+
+  - step: 7
+    name: "tiktok"
+    type: "agent"
+    agent: "davi-destaque"
+    execution: "subagent"
+    input_file: "squads/live-social-media/output/research-results.md"
+    output_file: "squads/live-social-media/output/content-tiktok.md"
+    model_tier: "powerful"
+
+  - step: 8
+    name: "landing-page"
+    type: "agent"
+    agent: "fabio-funil"
+    execution: "inline"
+    input_file: "squads/live-social-media/output/research-results.md"
+    output_file: "squads/live-social-media/output/content-landing-page.md"
+
+  - step: 9
+    name: "ad-creative"
+    type: "agent"
+    agent: "amanda-anuncio"
+    execution: "subagent"
+    input_file: "squads/live-social-media/output/research-results.md"
+    output_file: "squads/live-social-media/output/content-ad-creative.md"
+    model_tier: "powerful"
+
+  - step: 10
+    name: "influencer"
+    type: "agent"
+    agent: "iris-influencer"
+    execution: "inline"
+    input_file: "squads/live-social-media/output/research-results.md"
+    output_file: "squads/live-social-media/output/content-influencer.md"
+
+  - step: 11
+    name: "aprovacao-conteudo"
+    type: "checkpoint"
+
+  - step: 12
+    name: "revisao"
+    type: "agent"
+    agent: "bruno-balizador"
+    execution: "inline"
+    output_file: "squads/live-social-media/output/review-verdict.md"
+    on_reject: 4
+
+  - step: 13
+    name: "aprovacao-final"
+    type: "checkpoint"
+
+  - step: 14
+    name: "publicacao"
+    type: "agent"
+    agent: "paula-postagem"
+    execution: "subagent"
+    input_file: "squads/live-social-media/output/review-verdict.md"
+    output_file: "squads/live-social-media/output/publish-log.md"
+    model_tier: "fast"
+
+investigation:
+  enriched: true
+  profiles_analyzed: 4
+  date: "2026-04-14"
+  dir: "squads/live-social-media/_investigations"
+  profiles:
+    - "@metalifepilates — DM automation, carrosséis dialógicos, CTA por palavra-chave"
+    - "@equipilates_oficial — conteúdo de parceiro 62x > próprio, cobertura de eventos"
+    - "@rafael.voll — hook humor→seriedade, alta frequência, CTA 'comente X'"
+    - "@technogym_brazil — vocabulário premium, zero CTA comercial, cases verificados"
+
+skills_installed:
+  - "web_search"
+  - "web_fetch"
+  - "blotato"
+  - "image-ai-generator"
+  - "instagram-publisher"
+
+formats_selected:
+  - "instagram-reels"
+  - "instagram-feed"
+  - "instagram-stories"
+  - "tiktok"
+  - "landing-page"
+  - "ad-creative"
+
+best_practices_consulted:
+  - "copywriting.md"
+  - "researching.md"
+  - "review.md"
+  - "image-design.md"
+  - "social-networks-publishing.md"
+  - "strategist.md"
+  - "instagram-feed.md"
+  - "instagram-reels.md"
+  - "instagram-stories.md"

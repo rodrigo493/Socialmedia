@@ -1,0 +1,11 @@
+id,name,title,icon,execution,path
+henrique-horizonte,Henrique Horizonte,Pesquisador Estratégico,🔭,subagent,./agents/henrique-horizonte.agent.md
+giovana-gancho,Giovana Gancho,Criadora de Reels,🎬,subagent,./agents/giovana-gancho.agent.md
+caio-carrossel,Caio Carrossel,Criador de Feed/Carrossel,🃏,subagent,./agents/caio-carrossel.agent.md
+elisa-efemera,Elisa Efêmera,Criadora de Stories,✨,subagent,./agents/elisa-efemera.agent.md
+davi-destaque,Davi Destaque,Criador de TikTok,🎵,subagent,./agents/davi-destaque.agent.md
+fabio-funil,Fábio Funil,Criador de Landing Pages,🚀,inline,./agents/fabio-funil.agent.md
+amanda-anuncio,Amanda Anúncio,Criadora de Criativos,📢,subagent,./agents/amanda-anuncio.agent.md
+iris-influencer,Iris Influencer,Criadora de Personas Digitais,🧬,inline,./agents/iris-influencer.agent.md
+bruno-balizador,Bruno Balizador,Revisor de Qualidade,✅,inline,./agents/bruno-balizador.agent.md
+paula-postagem,Paula Postagem,Publicadora,📱,subagent,./agents/paula-postagem.agent.md

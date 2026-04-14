@@ -1,0 +1,54 @@
+squad:
+  code: "live-social-media"
+  name: "Live Social Media"
+  description: "Produção de conteúdo estratégico B2B para donos de studio de Pilates e academias premium — Reels, carrosséis, Stories, TikTok, landing pages, criativos para tráfego pago e influencers digitais para a Live Universe"
+  language: "Português (Brasil)"
+  domain: "content"
+  posting_approval: true
+
+company:
+  name: "Live Universe"
+  website: "www.liveuni.com.br"
+  tone: "Direto, estratégico, provocativo com autoridade"
+  icp: "Donos e sócios de studios de Pilates e academias premium (B2B) — O Operador Estratégico do Fitness: 30–50 anos, pragmático, cético com promessas, travado no próximo nível de crescimento"
+
+skills:
+  - web_search
+  - web_fetch
+  - blotato
+  - image-ai-generator
+  - instagram-publisher
+
+data:
+  - pipeline/data/research-brief.md
+  - pipeline/data/domain-framework.md
+  - pipeline/data/quality-criteria.md
+  - pipeline/data/output-examples.md
+  - pipeline/data/anti-patterns.md
+  - pipeline/data/tone-of-voice.md
+  - pipeline/data/influencer-prompts-library.md
+
+agents:
+  - id: henrique-horizonte
+    path: ./agents/henrique-horizonte.agent.md
+  - id: giovana-gancho
+    path: ./agents/giovana-gancho.agent.md
+  - id: caio-carrossel
+    path: ./agents/caio-carrossel.agent.md
+  - id: elisa-efemera
+    path: ./agents/elisa-efemera.agent.md
+  - id: davi-destaque
+    path: ./agents/davi-destaque.agent.md
+  - id: fabio-funil
+    path: ./agents/fabio-funil.agent.md
+  - id: amanda-anuncio
+    path: ./agents/amanda-anuncio.agent.md
+  - id: iris-influencer
+    path: ./agents/iris-influencer.agent.md
+  - id: bruno-balizador
+    path: ./agents/bruno-balizador.agent.md
+  - id: paula-postagem
+    path: ./agents/paula-postagem.agent.md
+
+pipeline:
+  entry: pipeline/pipeline.yaml

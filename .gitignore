@@ -1,0 +1,12 @@
+# Browser profile — contains session cookies (private)
+_opensquad/_browser_profile/
+
+# Node modules (if any)
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/settings.json

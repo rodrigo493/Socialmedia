@@ -1,0 +1,75 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e4]:
+    - generic [ref=e6]:
+      - link "Pular para o conteúdo" [ref=e8] [cursor=pointer]:
+        - /url: "#main"
+        - generic [ref=e9]:
+          - text: Pular para o conteúdo
+          - img [ref=e10]
+      - generic [ref=e12]:
+        - banner [ref=e13]:
+          - generic [ref=e127]:
+            - generic [ref=e128]:
+              - link "📦 Caixa Secreta de Prompts [Influencer A.I]" [ref=e130] [cursor=pointer]:
+                - /url: /Caixa-Secreta-de-Prompts-Influencer-A-I-2e1fd834667180df8b0fc826a405a940?pvs=18
+                - generic [ref=e136]:
+                  - img "📦" [ref=e137]
+                  - text: Caixa Secreta de Prompts [Influencer A.I]
+              - img [ref=e139]
+              - link "⌨️ Rostos Realistas" [ref=e142] [cursor=pointer]:
+                - /url: /2e1fd8346671806dad52fcb936a66c75?v=2e1fd834667180fca678000cb74e91da&pvs=18
+                - generic [ref=e143]:
+                  - img "⌨️" [ref=e147]
+                  - generic [ref=e148]: Rostos Realistas
+              - img [ref=e150]
+              - button "📸 Rosto Realista Ruiva" [disabled] [ref=e152]:
+                - img "📸" [ref=e156]
+                - generic [ref=e157]: Rosto Realista Ruiva
+            - generic [ref=e158]:
+              - button "Fechar painel" [ref=e160] [cursor=pointer]:
+                - img [ref=e161]
+              - generic [ref=e164]:
+                - button [ref=e165] [cursor=pointer]:
+                  - img [ref=e166]
+                - button "Compartilhar site nas redes sociais" [ref=e170] [cursor=pointer]:
+                  - img [ref=e171]
+                - button [ref=e175] [cursor=pointer]:
+                  - img [ref=e176]
+                - button "Mais ações" [ref=e179] [cursor=pointer]:
+                  - img [ref=e180]
+                - button "Crie sua conta gratuita" [ref=e182] [cursor=pointer]
+        - main [ref=e15]:
+          - group [disabled] [ref=e18]:
+            - generic [ref=e20]:
+              - generic [ref=e23]:
+                - generic [ref=e28]:
+                  - img "📸 Ícone de página" [ref=e29]
+                  - img "📸 Ícone de página" [ref=e30]
+                - heading "Rosto Realista Ruiva" [level=1] [ref=e35]
+              - table "Propriedades da página" [ref=e42]:
+                - row "I.A Utilizada →" [disabled] [ref=e44]:
+                  - cell "I.A Utilizada →" [ref=e49]:
+                    - generic [ref=e50]:
+                      - img [ref=e56]
+                      - generic [ref=e58]: I.A Utilizada →
+                  - cell "Nano Banana Pro" [ref=e59]:
+                    - generic [ref=e63]: Nano Banana Pro
+                - row "Prompt →" [disabled] [ref=e65]:
+                  - cell "Prompt →" [ref=e70]:
+                    - generic [ref=e71]:
+                      - img [ref=e77]
+                      - generic [ref=e79]: Prompt →
+                  - cell "Um retrato natural em close-up de uma jovem mulher de 29 anos, ruiva, com longos cabelos ruivos cacheados, volumosos e levemente desalinhados de forma estilosa e natural, boca bem desenhada e carnuda, olhos castanho-avelã intensos, rosto simétrico e marcante, sob uma luz suave. A câmera foca na área ao redor de suas bochechas e nariz, revelando poros sutis, textura natural da pele e micro detalhes realistas. Ela usa maquiagem leve e sofisticada. Sua expressão é calma e neutra, transmitindo naturalidade. O fundo está suavemente desfocado. Fotografia tirada com uma lente de 50mm, alta resolução e perfil de cor limpo, incluindo ruído cromático sutil nas sombras e fundo, leve distorção de lente grande angular nas bordas e nitidez artificial discreta típica do processamento automático de imagem de smartphones." [ref=e80]:
+                    - generic [ref=e84]: Um retrato natural em close-up de uma jovem mulher de 29 anos, ruiva, com longos cabelos ruivos cacheados, volumosos e levemente desalinhados de forma estilosa e natural, boca bem desenhada e carnuda, olhos castanho-avelã intensos, rosto simétrico e marcante, sob uma luz suave. A câmera foca na área ao redor de suas bochechas e nariz, revelando poros sutis, textura natural da pele e micro detalhes realistas. Ela usa maquiagem leve e sofisticada. Sua expressão é calma e neutra, transmitindo naturalidade. O fundo está suavemente desfocado. Fotografia tirada com uma lente de 50mm, alta resolução e perfil de cor limpo, incluindo ruído cromático sutil nas sombras e fundo, leve distorção de lente grande angular nas bordas e nitidez artificial discreta típica do processamento automático de imagem de smartphones.
+                - row "Arquivos e mídia" [disabled] [ref=e86]:
+                  - cell "Arquivos e mídia" [ref=e91]:
+                    - generic [ref=e92]:
+                      - img [ref=e98]
+                      - generic [ref=e100]: Arquivos e mídia
+                  - cell [ref=e101]:
+                    - img [ref=e107]
+        - region [ref=e123]
+    - status [ref=e124]
+    - alert [ref=e125]
+  - iframe [ref=e126]:
+    
