@@ -74,3 +74,19 @@ export async function verifyToken(token) {
     return { username: p.u }
   } catch { return null }
 }
+
+export async function listUsers() {
+  const a = await loadAuth()
+  if (!a?.users) return []
+  return Object.entries(a.users).map(([username, u]) => ({ username, createdAt: u.createdAt }))
+}
+
+export async function deleteUser(username) {
+  const a = await loadAuth()
+  if (!a?.users?.[username]) return { ok: false, error: 'usuário não existe' }
+  const remaining = Object.keys(a.users).length
+  if (remaining <= 1) return { ok: false, error: 'não é possível deletar o último usuário' }
+  delete a.users[username]
+  await saveAuth(a)
+  return { ok: true }
+}

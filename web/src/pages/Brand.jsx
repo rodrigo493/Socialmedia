@@ -1,5 +1,85 @@
 import { useEffect, useRef, useState } from 'react'
 
+function UsersSection() {
+  const [users, setUsers] = useState([])
+  const [newU, setNewU] = useState('')
+  const [newP, setNewP] = useState('')
+  const [err, setErr] = useState(null)
+  const [busy, setBusy] = useState(false)
+
+  async function load() {
+    const r = await (await fetch('/api/v1/auth/users')).json()
+    setUsers(Array.isArray(r) ? r : [])
+  }
+  useEffect(() => { load() }, [])
+
+  async function add(e) {
+    e.preventDefault()
+    setErr(null); setBusy(true)
+    try {
+      const res = await fetch('/api/v1/auth/users', {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ username: newU, password: newP }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'erro')
+      setNewU(''); setNewP('')
+      load()
+    } catch (e) { setErr(e.message) } finally { setBusy(false) }
+  }
+
+  async function del(username) {
+    if (!confirm(`Apagar usuário ${username}?`)) return
+    const res = await fetch(`/api/v1/auth/users/${encodeURIComponent(username)}`, { method: 'DELETE' })
+    const d = await res.json()
+    if (!res.ok || d.error) alert(d.error || 'erro')
+    load()
+  }
+
+  return (
+    <section className="mb-10 rise rise-1">
+      <div className="flex items-center justify-between mb-3">
+        <div>
+          <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-onair">Usuários do painel</div>
+          <div className="font-display italic text-2xl text-paper">Quem tem acesso</div>
+        </div>
+      </div>
+
+      <div className="border border-wire bg-coal p-5">
+        <ul className="space-y-2 mb-5">
+          {users.map(u => (
+            <li key={u.username} className="flex items-center justify-between py-2 border-b border-wire/40">
+              <div>
+                <span className="font-mono text-paper text-sm">{u.username}</span>
+                <span className="font-mono text-[10px] text-dust ml-3">criado em {new Date(u.createdAt).toLocaleDateString('pt-BR')}</span>
+              </div>
+              <button onClick={() => del(u.username)} className="font-mono text-[10px] uppercase tracking-widest text-dust border border-wire px-3 py-1 hover:text-onair hover:border-onair">
+                apagar
+              </button>
+            </li>
+          ))}
+          {users.length === 0 && <li className="font-mono text-[10px] text-wire uppercase tracking-widest">(vazio)</li>}
+        </ul>
+
+        <form onSubmit={add} className="grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] gap-2">
+          <input value={newU} onChange={e => setNewU(e.target.value)} placeholder="novo usuário"
+            className="bg-ink border border-wire text-paper p-2 text-sm font-mono focus:outline-none focus:border-paper" />
+          <input type="password" value={newP} onChange={e => setNewP(e.target.value)} placeholder="senha (mín 8 chars)"
+            className="bg-ink border border-wire text-paper p-2 text-sm font-mono focus:outline-none focus:border-paper" />
+          <button type="submit" disabled={busy || !newU || !newP}
+            className="font-mono text-[11px] uppercase tracking-widest text-paper bg-onair border border-onair px-4 py-2 disabled:opacity-40 hover:bg-[#C9241E]">
+            {busy ? '…' : '+ Criar'}
+          </button>
+        </form>
+        {err && <div className="mt-2 font-mono text-[10px] text-onair">{err}</div>}
+        <div className="font-mono text-[10px] text-dust mt-3">
+          Apenas usuários logados conseguem criar outros. Setup público só funciona na primeira vez.
+        </div>
+      </div>
+    </section>
+  )
+}
+
 const TABS = [
   { id: 'company', label: 'Empresa', hint: 'Identificação, missão, visão, tom de voz. Carregado em todos os agentes.' },
   { id: 'preferences', label: 'Preferências', hint: 'Regras operacionais, padrões editoriais, o que evitar.' },
@@ -157,6 +237,9 @@ export default function Brand() {
       </div>
 
       <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-dust mb-3">{current?.hint}</p>
+
+      {/* Usuários do painel */}
+      <UsersSection />
 
       {/* Manual da marca */}
       <section className="mb-10 rise rise-1">

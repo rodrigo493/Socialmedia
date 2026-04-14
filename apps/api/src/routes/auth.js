@@ -33,4 +33,23 @@ export default async function authRoutes(app) {
     if (!u) { reply.code(401); return { error: 'token inválido' } }
     return u
   })
+
+  // Admin-only: listar/criar/deletar usuários (middleware global já exige auth)
+  app.get('/api/v1/auth/users', async () => {
+    return await auth.listUsers()
+  })
+
+  app.post('/api/v1/auth/users', async (req, reply) => {
+    const { username, password } = req.body || {}
+    if (!username || !password) { reply.code(400); return { error: 'username e password obrigatórios' } }
+    try {
+      return await auth.createUser({ username, password })
+    } catch (err) { reply.code(400); return { error: err.message } }
+  })
+
+  app.delete('/api/v1/auth/users/:username', async (req, reply) => {
+    const r = await auth.deleteUser(req.params.username)
+    if (!r.ok) { reply.code(400); return r }
+    return r
+  })
 }
