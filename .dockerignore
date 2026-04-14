@@ -1,0 +1,16 @@
+node_modules
+**/node_modules
+dist
+.git
+.env
+.env.*
+apps/api/gcp-service-account.json
+apps/api/data
+.mcp.json
+_opensquad/_browser_profile
+squads/live-social-media/output/criados
+squads/live-social-media/output/chat-sessions
+squads/live-social-media/output/analytics
+squads/live-social-media/output/_uploads
+Public
+*.log

@@ -22,6 +22,21 @@ await app.register(multipart, { limits: { fileSize: 200 * 1024 * 1024 } }) // 20
 const PRODUCTS_DIR = path.join(ROOT, 'squads', 'live-social-media', '_products')
 await app.register(staticPlugin, { root: PRODUCTS_DIR, prefix: '/products-media/', decorateReply: false })
 
+// Serve frontend buildado (produção) — só registra se SERVE_STATIC apontar pra dist existente
+const STATIC_DIR = process.env.SERVE_STATIC
+if (STATIC_DIR && fssync.existsSync(STATIC_DIR)) {
+  await app.register(staticPlugin, { root: STATIC_DIR, prefix: '/', decorateReply: false, wildcard: false })
+  app.setNotFoundHandler((req, reply) => {
+    // Rotas API já foram tratadas; aqui é fallback do SPA (tudo que não é /api, /media, /products-media)
+    const url = req.url.split('?')[0]
+    if (url.startsWith('/api/') || url.startsWith('/media/') || url.startsWith('/products-media/')) {
+      return reply.code(404).send({ error: 'not found' })
+    }
+    return reply.sendFile('index.html')
+  })
+  app.log.info({ staticDir: STATIC_DIR }, 'serving frontend estático')
+}
+
 // --- Auth middleware (antes dos routes) -----------------------------------
 const authSvc = await import('./services/auth.js')
 const PUBLIC_PREFIXES = [
