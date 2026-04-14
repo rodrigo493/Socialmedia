@@ -1,0 +1,16 @@
+{
+  "slug": "nome-do-produto-em-slug",
+  "name": "Nome Oficial do Produto",
+  "category": "Pilates Studio | Pilates Home | Funcional | Cardio",
+  "icp": "Quem usa (instrutora / atleta / idoso / reabilitação)",
+  "differential": "Diferencial técnico principal (materiais, certificações, mecânica)",
+  "description": "Parágrafo curto explicando o produto.",
+  "images": {
+    "frontal": "frontal.png",
+    "perspectiva": "perspectiva.png",
+    "close": "close.png",
+    "ambiente": "ambiente.png",
+    "uso": "uso.png"
+  },
+  "tags": ["pilates", "studio"]
+}

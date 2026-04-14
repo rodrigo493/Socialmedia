@@ -1,8 +1,14 @@
 # Browser profile — contains session cookies (private)
 _opensquad/_browser_profile/
 
-# Node modules (if any)
+# Node modules
 node_modules/
+**/node_modules/
+
+# Build outputs
+dist/
+.vite/
+build/
 
 # OS files
 .DS_Store
@@ -10,3 +16,34 @@ Thumbs.db
 
 # Editor
 .vscode/settings.json
+.idea/
+
+# Secrets — NEVER commit
+.env
+.env.*
+!.env.example
+.mcp.json
+apps/api/.env
+apps/api/gcp-service-account.json
+apps/api/data/auth.json
+
+# Runtime data
+apps/api/data/screenshots/
+apps/api/data/*.db
+
+# Conteúdo gerado (mídia pesada)
+squads/live-social-media/output/criados/
+squads/live-social-media/output/chat-sessions/
+squads/live-social-media/output/analytics/
+squads/live-social-media/output/_uploads/
+
+# Assets locais do usuário (fotos de produtos, manual de marca, logo)
+# Ficam no filesystem, não no git — servidor pode ter seus próprios
+_opensquad/_memory/assets/
+squads/live-social-media/_products/*/*.png
+squads/live-social-media/_products/*/*.jpg
+squads/live-social-media/_products/*/*.jpeg
+squads/live-social-media/_products/*/*.webp
+
+# Public folder (prints, PDFs de trabalho)
+Public/

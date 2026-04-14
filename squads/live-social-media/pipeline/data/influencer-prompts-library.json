@@ -1,0 +1,87 @@
+{
+  "version": "1.0",
+  "source": "Caixa Secreta de Prompts — Influencer A.I",
+  "notes": "Biblioteca canônica usada pela Iris-Influencer para gerar personas digitais Live Equipamentos.",
+
+  "archetypes": {
+    "ruiva": {
+      "label": "Ruiva · 29 anos",
+      "prompt": "Um retrato natural em close-up de uma jovem mulher de 29 anos, ruiva, com longos cabelos ruivos cacheados, volumosos e levemente desalinhados de forma estilosa e natural, boca bem desenhada e carnuda, olhos castanho-avelã intensos, rosto simétrico e marcante, sob uma luz suave. A câmera foca na área ao redor de suas bochechas e nariz, revelando poros sutis, textura natural da pele e micro detalhes realistas. Ela usa maquiagem leve e sofisticada. Sua expressão é calma e neutra, transmitindo naturalidade. O fundo está suavemente desfocado. Fotografia tirada com uma lente de 50mm, alta resolução e perfil de cor limpo, incluindo ruído cromático sutil nas sombras e fundo, leve distorção de lente grande angular nas bordas e nitidez artificial discreta típica do processamento automático de imagem de smartphones."
+    },
+    "negra": {
+      "label": "Negra · 27 anos (tranças)",
+      "prompt": "Um retrato natural em close-up de uma jovem mulher de 27 anos, brasileira, negra, com cabelos pretos trançados em tranças finas e bem definidas, estilosa, boca bem desenhada e carnuda, olhos castanho-claros luminosos, rosto simétrico e marcante, sob uma luz suave. A câmera foca na área ao redor de suas bochechas e nariz, revelando poros sutis, textura natural da pele e micro detalhes realistas. Ela usa maquiagem leve e elegante. Sua expressão é calma e neutra, transmitindo serenidade. O fundo está suavemente desfocado. Fotografia tirada com uma lente de 50mm, alta resolução e perfil de cor limpo, incluindo ruído cromático sutil nas sombras e fundo, leve distorção de lente grande angular nas bordas e nitidez artificial discreta típica do processamento automático de imagem de smartphones."
+    },
+    "morena": {
+      "label": "Morena · 20 anos (olhos verdes)",
+      "prompt": "Um retrato natural em close-up de uma jovem mulher de 20 anos, brasileira, latina, com longos cabelos castanhos jogados para o lado, estiloso, meio bagunçado, boca bem desenhada e carnuda, olhos verdes, rosto simétrico, deslumbrante, sob uma luz suave. A câmera foca na área ao redor de suas bochechas e nariz, revelando poros sutis, textura natural da pele e micro pelos faciais. Ela usa maquiagem leve. Sua expressão é calma e neutra. O fundo está suavemente desfocado. Fotografia tirada com uma lente de 50mm, alta resolução e perfil de cor limpo."
+    },
+    "morena-cinema": {
+      "label": "Morena · 19 anos (cinematográfica 8K)",
+      "prompt": "A natural portrait of a 19-year-old Brazilian woman with long, stylish, slightly messy brown hair, a well-defined and full mouth, green eyes, a symmetrical face, and stunning features. She wears light makeup and is smiling at the camera. She is wearing a white, form-fitting tank top. Photorealistic details with visible textures, such as pores, strands of hair, wrinkles, and fibers. Realistic surface variation with natural oily shine and dryness in different areas, without retouching. The surrounding skin has an authentic texture with visible pores, micro-details, and natural asymmetry. Real skin translucency, without idealized smoothness. The lighting is soft, yet directional, falling on the surface at a shallow angle to reveal texture and depth. Neutral white balance, true-to-life colors, cinematic contrast. No saturated blacks, no blown-out highlights. Extremely shallow depth of field with precise focus on the surface and soft blur at the edges. Photographed by an ARRI Alexa camera, with 8k cinematography, bringing maximum sharpness and realism to the image."
+    },
+    "loira": {
+      "label": "Loira · 20 anos (olhos azuis)",
+      "prompt": "Um retrato natural em close-up de uma jovem mulher de 20 anos, brasileira, latina, com longos cabelos lisos e loiros jogados para o lado, estiloso, boca bem desenhada e carnuda, olhos azuis, rosto simétrico, deslumbrante, sob uma luz suave. A câmera foca na área ao redor de suas bochechas e nariz, revelando poros sutis, textura natural da pele e micro pelos faciais. Ela usa maquiagem leve. Sua expressão é calma e neutra. O fundo está suavemente desfocado. Fotografia tirada com uma lente de 50mm, alta resolução e perfil de cor limpo."
+    },
+    "loira-cinema": {
+      "label": "Loira · 19 anos (cinematográfica 8K)",
+      "prompt": "A natural portrait of a 19-year-old Brazilian woman with long, stylish, slightly messy blonde hair, a well-defined and full mouth, green eyes, a symmetrical face, and stunning features. She wears light makeup and is smiling at the camera. She is wearing a white, form-fitting tank top. Photorealistic details with visible textures, such as pores, strands of hair, wrinkles, and fibers. Realistic surface variation with natural oily shine and dryness in different areas, without retouching. The surrounding skin has an authentic texture with visible pores, micro-details, and natural asymmetry. Real skin translucency, without idealized smoothness. The lighting is soft, yet directional, falling on the surface at a shallow angle to reveal texture and depth. Neutral white balance, true-to-life colors, cinematic contrast. No saturated blacks, no blown-out highlights. Extremely shallow depth of field with precise focus on the surface and soft blur at the edges. Photographed by an ARRI Alexa camera, with 8k cinematography, bringing maximum sharpness and realism to the image."
+    },
+    "mulher-meia-idade": {
+      "label": "Mulher 60 anos",
+      "prompt": "Um retrato natural em close-up de uma mulher de 60 anos, brasileira, latina, com cabelos castanhos, olhos castanhos, rosto simétrico, deslumbrante, sob uma luz suave. A câmera foca na área ao redor de suas bochechas e nariz, revelando poros sutis, textura natural da pele e micro pelos faciais. Sua expressão é feliz, sorrindo. O fundo está suavemente desfocado. Fotografia tirada com uma lente de 50mm, alta resolução e perfil de cor limpo. A mulher está de frente para a câmera."
+    },
+    "mulher-idosa": {
+      "label": "Mulher 80 anos",
+      "prompt": "Um retrato natural em close-up de uma mulher de 80 anos, brasileira, latina, com cabelos brancos, olhos castanhos, rosto simétrico, deslumbrante, sob uma luz suave. A câmera foca na área ao redor de suas bochechas e nariz, revelando poros sutis, textura natural da pele e micro pelos faciais. Sua expressão é feliz, sorrindo. O fundo está suavemente desfocado. Fotografia tirada com uma lente de 50mm, alta resolução e perfil de cor limpo. A mulher está de frente para a câmera."
+    },
+    "homem-loiro": {
+      "label": "Homem loiro · 25 anos",
+      "prompt": "Um retrato natural em close-up de um jovem homem de 25 anos, brasileiro, latino, com cabelos loiros e barba baixa no mesmo tom, estiloso, olhos azuis, rosto simétrico, deslumbrante, sob uma luz suave. A câmera foca na área ao redor de suas bochechas e nariz, revelando poros sutis, textura natural da pele e micro pelos faciais. Sua expressão é calma e neutra. O fundo está suavemente desfocado. Fotografia tirada com uma lente de 50mm, alta resolução e perfil de cor limpo."
+    },
+    "homem-ruivo": {
+      "label": "Homem ruivo · 25 anos",
+      "prompt": "Um retrato natural em close-up de um jovem homem de 25 anos, brasileiro, latino, ruivo, com cabelos ruivos levemente ondulados e barba baixa bem aparada no mesmo tom acobreado, estiloso, olhos verde-claros intensos, rosto simétrico e marcante, deslumbrante, sob uma luz suave. A câmera foca na área ao redor de suas bochechas e nariz, revelando poros sutis, textura natural da pele e micro pelos faciais visíveis. Sua expressão é calma e neutra, transmitindo naturalidade. O fundo está suavemente desfocado. Fotografia tirada com uma lente de 50mm, alta resolução e perfil de cor limpo, incluindo ruído cromático sutil nas sombras e fundo, leve distorção de lente grande angular nas bordas e nitidez artificial discreta típica do processamento automático de imagem de smartphones."
+    },
+    "homem-negro": {
+      "label": "Homem negro · 30 anos",
+      "prompt": "Um retrato natural em close-up de um jovem homem de 30 anos, brasileiro, latino, negro, com cabelo raspado e sem barba, estiloso, olhos castanhos, rosto simétrico, deslumbrante, sob uma luz suave. A câmera foca na área ao redor de suas bochechas e nariz, revelando poros sutis, textura natural da pele e micro pelos faciais. Sua expressão é feliz, sorrindo. O fundo está suavemente desfocado. Fotografia tirada com uma lente de 50mm, alta resolução e perfil de cor limpo. O homem está de frente para a câmera."
+    },
+    "homem-meia-idade": {
+      "label": "Homem 60 anos",
+      "prompt": "Um retrato natural em close-up de um homem de 60 anos, brasileiro, latino, com cabelos castanhos e barba no mesmo tom, estiloso, olhos castanhos, rosto simétrico, deslumbrante, sob uma luz suave. A câmera foca na área ao redor de suas bochechas e nariz, revelando poros sutis, textura natural da pele e micro pelos faciais. Sua expressão é feliz, sorrindo. O fundo está suavemente desfocado. Fotografia tirada com uma lente de 50mm, alta resolução e perfil de cor limpo. O homem está de frente para a câmera."
+    },
+    "homem-idoso": {
+      "label": "Homem 80 anos",
+      "prompt": "Um retrato natural em close-up de um homem de 80 anos, brasileiro, latino, com cabelos brancos e barba no mesmo tom, estiloso, olhos castanhos, rosto simétrico, deslumbrante, sob uma luz suave. A câmera foca na área ao redor de suas bochechas e nariz, revelando poros sutis, textura natural da pele e micro pelos faciais. Sua expressão é feliz, sorrindo. O fundo está suavemente desfocado. Fotografia tirada com uma lente de 50mm, alta resolução e perfil de cor limpo. O homem está de frente para a câmera."
+    }
+  },
+
+  "characterSheet": {
+    "front": "A pessoa da imagem está em pé, de frente, contra um fundo neutro, cinza claro, centralizada no enquadramento, onde ela apareça da cintura para cima, em plano médio, seus braços aparecem por completo na imagem, olhando fixamente para a câmera, e sorrindo. Não altere nada na fisionomia da pessoa, mantenha seus traços e rosto fielmente iguais, assim como seu biotipo corporal também. Fotografado com uma câmera ARRI Alexa, cinematografia em 8k, trazendo o máximo de nitidez e realismo para a imagem.",
+    "right": "Faça essa pessoa virada de perfil para o lado direito, completamente de lado para a câmera. Não altere nada na fisionomia, mantenha seus traços e rosto fielmente iguais. Não altere a cor do fundo também. Fotografado com uma câmera ARRI Alexa, cinematografia em 8k, trazendo o máximo de nitidez e realismo para a imagem.",
+    "left": "Faça essa pessoa virada de perfil para o lado esquerdo, completamente de lado para a câmera. Não altere nada na fisionomia, mantenha seus traços e rosto fielmente iguais. Não altere a cor do fundo também. Fotografado com uma câmera ARRI Alexa, cinematografia em 8k, trazendo o máximo de nitidez e realismo para a imagem.",
+    "back": "Faça essa pessoa virada completamente de costas para a câmera. Não altere nada na fisionomia, mantenha seus traços e rosto fielmente iguais. Não altere a cor do fundo também. Fotografado com uma câmera ARRI Alexa, cinematografia em 8k, trazendo o máximo de nitidez e realismo para a imagem."
+  },
+
+  "cinematicEnhancer": "Recreate the image with all the details below in this prompt: Photorealistic details with visible textures, such as pores, strands of hair, wrinkles, and fibers. Realistic surface variation with natural shine and dryness in different areas, without retouching. The surrounding skin has authentic texture with visible pores, micro-details, and natural asymmetry. Real skin translucency, without idealized smoothness. The lighting is soft, yet directional, falling on the surface at a shallow angle to reveal texture and depth. Neutral white balance, true-to-life colors, cinematic contrast. No saturated blacks, no blown-out highlights. Extremely shallow depth of field with precise focus on the surface and soft blur at the edges. Photographed with an ARRI Alexa camera, with 8K cinematography, providing maximum sharpness and realism to the image.",
+
+  "macros": {
+    "eye": "Extreme macro photography of the model's eye in the image. Photorealistic details with visible textures, such as pores, fine hairs, wrinkles, and fibers. Natural imperfections, including subtle imperfections such as uneven tone and small blemishes. Realistic surface variation with natural oily shine and dryness in different areas. No makeup, no retouching. The surrounding skin has authentic texture with visible pores, micro-details, and natural asymmetry. Real skin translucency, without idealized smoothness. The lighting is soft yet directional, falling on the surface at a shallow angle to reveal texture and depth. Neutral white balance, true-to-life colors, cinematic contrast. Shot with a high-quality macro lens, equivalent to 100mm. Documentary realism, unretouched, raw and authentic. It's not CGI.",
+    "nose": "Extreme macro photography of the model's nose in the image. Photorealistic details with visible textures, such as pores, fine hairs, wrinkles, and fibers. Natural imperfections, including subtle imperfections such as uneven tone and small blemishes. Realistic surface variation with natural oily shine and dryness in different areas. No makeup, no retouching. The surrounding skin has authentic texture with visible pores, micro-details, and natural asymmetry. The lighting is soft yet directional, falling on the surface at a shallow angle to reveal texture and depth. Shot with a high-quality macro lens, equivalent to 100mm. Documentary realism, unretouched, raw and authentic. It's not CGI.",
+    "mouth": "Extreme macro photography of the model's mouth in the image. Photorealistic details with visible textures, such as pores, fine hairs, wrinkles, and fibers. Natural imperfections, including subtle imperfections such as uneven tone and small blemishes. Realistic surface variation with natural oily shine and dryness in different areas. No makeup, no retouching. The surrounding skin has authentic texture with visible pores, micro-details, and natural asymmetry. The lighting is soft yet directional, falling on the surface at a shallow angle to reveal texture and depth. Shot with a high-quality macro lens, equivalent to 100mm. Documentary realism, unretouched, raw and authentic. It's not CGI.",
+    "texture": "Extreme macro photograph of the model's face, smiling, facing the camera. Photorealistic details with visible textures, such as pores, fine hairs, wrinkles, and fibers. Natural imperfections, including subtle imperfections like uneven tone and small blemishes. Realistic surface variation with natural oily shine and dryness in different areas. No makeup, no retouching. Shot with a high-quality macro lens, equivalent to 100mm. Documentary realism, unretouched, raw and authentic. It's not CGI."
+  },
+
+  "faceswap": {
+    "falai": "Coloque o rosto da modelo de referência na modelo da imagem 1, ajuste e equilibre o tamanho da cabeça e corpo para que fique harmonizado e natural; faça a cabeça menor.",
+    "seedream": "Keep the exact same face as the woman in image 1; age, skin tone, eye color, eye shape, nose shape, lip shape, face shape, hair color, hair length, hair texture, and hairstyle from image 1 – but only show the body parts that are visible in the second image. Replicate the body and setting of image 2, but with the same fidelity to the face as in image 1. Highly consistent visual identity across all generations."
+  },
+
+  "productIntegration": {
+    "step1_extractDetails": "Me de todos os detalhes desse produto da imagem em um prompt.",
+    "step2_sceneWithInfluencer": "Agora faça um prompt completo, onde a modelo das imagens de referência que estou enviando, está na CENA do prompt acima. Dessa mulher que estou enviando as imagens, quero que você insira no prompt suas características físicas, jeitos, traços do rosto, cor do cabelo, e biotipo corporal de forma detalhada no prompt novo.",
+    "step4_composite": "A mulher da imagem de referência 1 segura o produto da imagem de referência 2 na mão. [prompt do produto abaixo para 100% de assertividade]: "
+  }
+}

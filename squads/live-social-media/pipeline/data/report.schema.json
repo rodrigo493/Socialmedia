@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "Competitive Intelligence Report",
+  "description": "Formato canônico que a pipeline live-social-media grava em squads/live-social-media/output/<YYYY-MM-DD>.report.json. Consumido pelo painel web em /relatorio.",
+  "type": "object",
+  "required": ["meta", "topVideos", "winningPatterns", "hooks", "scripts", "keyTakeaway"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["title", "period", "preparedFor", "preparedBy", "date"],
+      "properties": {
+        "title": { "type": "string" },
+        "subtitle": { "type": "string" },
+        "period": { "type": "string", "description": "Ex: 'Mar — Abr 2026'" },
+        "preparedFor": { "type": "string" },
+        "preparedBy": { "type": "string", "description": "id do agente (ex: iris-influencer)" },
+        "date": { "type": "string", "format": "date" },
+        "sources": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "handles investigados, ex: ['@metalifepilates','@paulacavalcantipilates']"
+        }
+      }
+    },
+    "topVideos": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "required": ["rank", "title", "views", "creator", "postedAt", "whyItWorked"],
+        "properties": {
+          "rank": { "type": "integer", "minimum": 1 },
+          "title": { "type": "string" },
+          "views": { "type": "integer" },
+          "creator": { "type": "string" },
+          "postedAt": { "type": "string", "format": "date" },
+          "url": { "type": "string" },
+          "whyItWorked": { "type": "string", "minLength": 120 }
+        }
+      }
+    },
+    "winningPatterns": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": ["title", "body"],
+        "properties": {
+          "title": { "type": "string" },
+          "body": { "type": "string", "minLength": 200 }
+        }
+      }
+    },
+    "hooks": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "object",
+        "required": ["n", "quote", "analysis"],
+        "properties": {
+          "n": { "type": "integer" },
+          "quote": { "type": "string" },
+          "analysis": { "type": "string", "minLength": 150 }
+        }
+      }
+    },
+    "scripts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["n", "duration", "basedOn", "body"],
+        "properties": {
+          "n": { "type": "integer" },
+          "duration": { "type": "string", "description": "Ex: '60 segundos'" },
+          "basedOn": { "type": "string" },
+          "body": { "type": "string", "description": "Roteiro em texto corrido usando blocos [CENA N]" }
+        }
+      }
+    },
+    "keyTakeaway": {
+      "type": "object",
+      "required": ["summary", "actions"],
+      "properties": {
+        "summary": { "type": "string", "minLength": 300 },
+        "actions": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "object",
+            "required": ["title", "body"],
+            "properties": {
+              "title": { "type": "string" },
+              "body": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}
