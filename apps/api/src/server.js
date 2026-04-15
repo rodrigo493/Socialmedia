@@ -5,6 +5,7 @@ import fs from 'node:fs/promises'
 import fssync from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { INTERNAL_TOKEN } from './services/internal.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(__dirname, '..', '..', '..')
@@ -13,7 +14,10 @@ const OUTPUT = path.join(SQUAD, 'output')
 const INVESTIGATIONS = path.join(SQUAD, '_investigations')
 
 const app = Fastify({ logger: true })
-await app.register(cors, { origin: true })
+await app.register(cors, {
+  origin: process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',') : true,
+  credentials: true,
+})
 await app.register(staticPlugin, { root: OUTPUT, prefix: '/media/' })
 const multipart = (await import('@fastify/multipart')).default
 await app.register(multipart, { limits: { fileSize: 200 * 1024 * 1024 } }) // 200MB por arquivo
@@ -58,6 +62,8 @@ app.addHook('preHandler', async (req, reply) => {
   // Verifica Bearer
   const header = req.headers.authorization || ''
   const token = header.startsWith('Bearer ') ? header.slice(7) : null
+  // Token interno (chamadas de serviço no mesmo processo)
+  if (token === INTERNAL_TOKEN) { req.user = { username: '__internal__' }; return }
   if (!token) { reply.code(401); return reply.send({ error: 'não autenticado' }) }
   const u = await authSvc.verifyToken(token)
   if (!u) { reply.code(401); return reply.send({ error: 'token inválido' }) }
@@ -204,7 +210,10 @@ schedulerMod.start({
     // publica via endpoint interno — usa fetch HTTP pro próprio backend
     const res = await fetch(`http://localhost:${SCHED_PORT}/api/v1/items/${ev.itemId}/publish`, {
       method: 'POST',
-      headers: { 'content-type': 'application/json' },
+      headers: {
+        'content-type': 'application/json',
+        'authorization': `Bearer ${INTERNAL_TOKEN}`,
+      },
       body: JSON.stringify({ targets: ev.networks }),
     })
     return res.json()
@@ -219,6 +228,11 @@ app.get('/api/v1/scheduler/status', async () => ({
 
 // --- Health ----------------------------------------------------------------
 app.get('/api/v1/health', async () => ({ ok: true, root: ROOT, output: OUTPUT }))
+
+app.setErrorHandler((err, req, reply) => {
+  app.log.error({ err, url: req.url }, 'unhandled error')
+  reply.code(err.statusCode || 500).send({ error: err.statusCode < 500 ? err.message : 'erro interno do servidor' })
+})
 
 const PORT = process.env.PORT || 3000
 app.listen({ port: PORT, host: '0.0.0.0' })

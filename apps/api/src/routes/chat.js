@@ -3,12 +3,15 @@ import { respond } from '../services/responder.js'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import crypto from 'node:crypto'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(__dirname, '..', '..', '..', '..')
 const SESSIONS_DIR = path.join(ROOT, 'squads', 'live-social-media', 'output', 'chat-sessions')
 
 async function loadSession(id) {
+  // Valida formato do ID (apenas alfanuméricos, hífens, underscores, ponto — sem path traversal)
+  if (!id || !/^[\w\-\.]{1,64}$/.test(id)) return null
   try {
     const raw = await fs.readFile(path.join(SESSIONS_DIR, `${id}.json`), 'utf8')
     return JSON.parse(raw)
@@ -79,7 +82,7 @@ export default async function chatRoutes(app) {
       let session = sessionId ? await loadSession(sessionId) : null
       if (!session) {
         session = {
-          id: 'sess-' + Date.now().toString(36),
+          id: 'sess-' + crypto.randomUUID().replace(/-/g, '').slice(0, 16),
           title: shortTitle(message),
           createdAt: now, updatedAt: now, messages: [],
         }
@@ -92,6 +95,10 @@ export default async function chatRoutes(app) {
         text, draft,
       })
       session.updatedAt = now
+      // Limita histórico a 100 mensagens (50 pares user/agent) para evitar DoS de memória
+      if (session.messages.length > 100) {
+        session.messages = session.messages.slice(-100)
+      }
       await saveSession(session)
 
       return {

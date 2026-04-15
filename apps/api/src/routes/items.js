@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { INTERNAL_TOKEN } from '../services/internal.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(__dirname, '..', '..', '..', '..')
@@ -98,7 +99,10 @@ export default async function itemRoutes(app) {
     // Auto-disparar geração em background (não bloqueia o response)
     if (autoGenerate) {
       const PORT = process.env.PORT || 3000
-      fetch(`http://localhost:${PORT}/api/v1/items/${id}/generate-media`, { method: 'POST' })
+      fetch(`http://localhost:${PORT}/api/v1/items/${id}/generate-media`, {
+        method: 'POST',
+        headers: { 'authorization': `Bearer ${INTERNAL_TOKEN}` },
+      })
         .catch(err => app.log.warn({ err: err.message, id }, 'auto-generate falhou ao disparar'))
     }
 

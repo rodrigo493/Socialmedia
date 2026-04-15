@@ -113,6 +113,10 @@ export default async function brandRoutes(app) {
 
   app.get('/api/v1/brand/manual/:file', async (req, reply) => {
     const name = path.basename(req.params.file)
+    // Proteção explícita contra path traversal
+    if (!name || name.includes('..') || !/^[\w\-\.\s]+$/.test(name)) {
+      reply.code(400); return { error: 'nome de arquivo inválido' }
+    }
     const full = path.join(MANUAL_DIR, name)
     if (!fsSync.existsSync(full)) { reply.code(404); return { error: 'não encontrado' } }
     reply.header('content-disposition', `inline; filename="${name}"`)
@@ -140,6 +144,10 @@ export default async function brandRoutes(app) {
 
   app.delete('/api/v1/brand/manual/:file', async (req, reply) => {
     const name = path.basename(req.params.file)
+    // Proteção explícita contra path traversal
+    if (!name || name.includes('..') || !/^[\w\-\.\s]+$/.test(name)) {
+      reply.code(400); return { error: 'nome de arquivo inválido' }
+    }
     await fs.unlink(path.join(MANUAL_DIR, name)).catch(() => {})
     return { ok: true }
   })

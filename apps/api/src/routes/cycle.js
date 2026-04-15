@@ -5,6 +5,7 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { INTERNAL_TOKEN } from '../services/internal.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(__dirname, '..', '..', '..', '..')
@@ -62,7 +63,11 @@ export default async function cycleRoutes(app) {
           } : {}),
         }
         const res = await fetch(`http://localhost:${PORT}/api/v1/items`, {
-          method: 'POST', headers: { 'content-type': 'application/json' },
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json',
+            'authorization': `Bearer ${INTERNAL_TOKEN}`,
+          },
           body: JSON.stringify(body),
         })
         const item = await res.json()

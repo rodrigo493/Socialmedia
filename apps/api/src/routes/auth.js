@@ -26,12 +26,8 @@ export default async function authRoutes(app) {
   })
 
   app.get('/api/v1/auth/me', async (req, reply) => {
-    const header = req.headers.authorization || ''
-    const token = header.startsWith('Bearer ') ? header.slice(7) : null
-    if (!token) { reply.code(401); return { error: 'não autenticado' } }
-    const u = await auth.verifyToken(token)
-    if (!u) { reply.code(401); return { error: 'token inválido' } }
-    return u
+    if (!req.user) { reply.code(401); return { error: 'não autenticado' } }
+    return req.user
   })
 
   // Admin-only: listar/criar/deletar usuários (middleware global já exige auth)
