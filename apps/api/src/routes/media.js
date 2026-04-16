@@ -6,6 +6,7 @@ import * as veo from '../services/veo.js'
 import * as eleven from '../services/elevenlabs.js'
 import * as ffmpeg from '../services/ffmpeg.js'
 import * as heygen from '../services/heygen.js'
+import { visualBriefBlock } from '../services/context.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(__dirname, '..', '..', '..', '..')
@@ -64,11 +65,12 @@ export default async function mediaRoutes(app) {
     try {
       const media = []
       const itemDir = path.join(CRIADOS, item.id)
+      const brandContext = await visualBriefBlock()
 
       if (item.type === 'carousel' && Array.isArray(item.slides)) {
         const total = item.slides.length
         for (const slide of item.slides) {
-          const prompt = nano.carouselSlidePrompt({ slide, index: slide.idx, total })
+          const prompt = nano.carouselSlidePrompt({ slide, index: slide.idx, total, brandContext })
           const file = `slide-${String(slide.idx).padStart(2, '0')}.png`
           const outPath = path.join(itemDir, file)
           await nano.generateImage({ prompt, outPath, aspectRatio: '4:5' })
@@ -86,7 +88,7 @@ export default async function mediaRoutes(app) {
           media.push({ role: 'video', path: `${item.id}/video-final.mp4`, mime: 'video/mp4' })
         } else {
           // Vídeo cinematográfico Veo 3
-          const prompt = veo.reelPromptFromScript({ title: item.title, script: item.script || item.caption })
+          const prompt = veo.reelPromptFromScript({ title: item.title, script: item.script || item.caption, brandContext })
           const videoPath = path.join(itemDir, 'video.mp4')
           await veo.generateVideo({ prompt, outPath: videoPath, aspectRatio: '9:16' })
 
@@ -119,6 +121,7 @@ export default async function mediaRoutes(app) {
             `${item.caption || ''}`,
             `Estética: fotografia editorial, tom de bastidor/backstage, iluminação cinematográfica suave, tons grafite/carvão com acento vermelho queimado, leve grão fílmico.`,
             `Sem texto na imagem, sem logos sobrepostos. Imagem pronta para receber overlay de texto.`,
+            brandContext ? `\n--- DIRETRIZES DA MARCA E REFERÊNCIAS DE CONCORRENTES ---\n${brandContext}` : '',
           ].filter(Boolean).join(' ')
           const f = `frame-${String(i).padStart(2,'0')}.png`
           const outPath = path.join(itemDir, f)

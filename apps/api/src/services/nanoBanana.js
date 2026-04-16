@@ -63,7 +63,7 @@ export async function generateImage({ prompt, outPath, aspectRatio, referenceIma
 
 // Helpers de prompt para tipos específicos do squad -------------------------
 
-export function carouselSlidePrompt({ brand = 'Live Equipamentos', slide, index, total }) {
+export function carouselSlidePrompt({ brand = 'Live Equipamentos', slide, index, total, brandContext = '' }) {
   return [
     `Crie um slide editorial para Instagram (formato 4:5) de uma marca de equipamentos de Pilates premium chamada "${brand}".`,
     `É o slide ${index} de ${total} de um carrossel.`,
@@ -71,6 +71,7 @@ export function carouselSlidePrompt({ brand = 'Live Equipamentos', slide, index,
     slide.sub ? `Subtexto: "${slide.sub}".` : '',
     `Estilo visual: tipografia moderna serif italic para headline, sans-serif para subtexto, fundo escuro sofisticado (tons grafite/carvão) com contraste mínimo dramático, leve grão fílmico, paleta vermelho queimado (#E5322B) como acento raro, muito espaço negativo.`,
     `Ratio: 4:5 (1080x1350). Sem marcas d'água, sem logos genéricos. Texto legível e centralizado na composição.`,
+    brandContext ? `\n--- DIRETRIZES DA MARCA E REFERÊNCIAS DE CONCORRENTES ---\n${brandContext}` : '',
   ].filter(Boolean).join('\n')
 }
 

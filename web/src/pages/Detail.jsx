@@ -198,6 +198,19 @@ export default function Detail() {
             {error && <div className="mt-3 font-mono text-[11px] text-onair border border-onair/60 p-2">{error}</div>}
           </div>
 
+          {m.status === 'error' && m.lastError && (
+            <div className="border border-onair/60 bg-onair/10 p-4">
+              <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-onair mb-2">Falha na geração</div>
+              <div className="font-mono text-[11px] text-paper whitespace-pre-wrap break-words">{m.lastError}</div>
+            </div>
+          )}
+
+          {m.status === 'generating' && (
+            <div className="border border-wire bg-coal p-4">
+              <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-dust">Gerando mídia... aguarde alguns minutos</div>
+            </div>
+          )}
+
           {/* Media gerada — preview direto */}
           {m.media?.length > 0 && (
             <div className="border border-wire p-5">

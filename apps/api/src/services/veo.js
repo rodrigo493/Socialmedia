@@ -60,12 +60,13 @@ export async function generateVideo({ prompt, outPath, aspectRatio = '9:16', pol
 }
 
 // Helper de prompt — roteiro curto a partir do texto do agente
-export function reelPromptFromScript({ title, script, brand = 'Live Equipamentos' }) {
+export function reelPromptFromScript({ title, script, brand = 'Live Equipamentos', brandContext = '' }) {
   return [
     `Vídeo vertical (9:16) de 8 segundos para Instagram Reel da marca "${brand}" (equipamentos de Pilates premium no Brasil).`,
     `Tema: ${title}.`,
     script ? `Direção visual: ${script.slice(0, 600)}` : '',
     `Estética: cinematográfica, iluminação natural suave, tons levemente dessaturados, movimento de câmera sutil, alta qualidade editorial.`,
     `Sem texto na tela. Sem logos.`,
+    brandContext ? `\n--- DIRETRIZES DA MARCA E REFERÊNCIAS DE CONCORRENTES ---\n${brandContext}` : '',
   ].filter(Boolean).join('\n')
 }
