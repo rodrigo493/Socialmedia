@@ -6,6 +6,7 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { INTERNAL_TOKEN } from '../services/internal.js'
+import * as planner from '../services/contentPlanner.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(__dirname, '..', '..', '..', '..')
@@ -45,10 +46,28 @@ export default async function cycleRoutes(app) {
   })
 
   // POST: dispara um ciclo completo (7 peças por padrão).
-  // Body: { mix?: [{ type, agent, title, ... }], count?: number }
+  // Body: { mix?: [{ type, agent, title, ... }], count?: number, useAI?: boolean }
+  // useAI=true (default): tenta gerar pauta com Claude usando company.md + concorrentes.
+  // useAI=false: usa DEFAULT_MIX hardcoded.
   app.post('/api/v1/cycle/start', async (req, reply) => {
-    const { mix, count } = req.body || {}
-    const plan = Array.isArray(mix) && mix.length ? mix : DEFAULT_MIX.slice(0, count || DEFAULT_MIX.length)
+    const { mix, count, useAI = true } = req.body || {}
+    const targetCount = count || DEFAULT_MIX.length
+    let plan
+    let planSource = 'default-mix'
+
+    if (Array.isArray(mix) && mix.length) {
+      plan = mix
+      planSource = 'request-mix'
+    } else if (useAI) {
+      const aiPlan = await planner.generatePlan({ count: targetCount, log: app.log })
+      if (aiPlan && aiPlan.length) {
+        plan = aiPlan
+        planSource = 'ai-claude'
+      }
+    }
+    if (!plan) plan = DEFAULT_MIX.slice(0, targetCount)
+    app.log.info({ planSource, count: plan.length }, '[cycle] starting')
+
     const PORT = process.env.PORT || 3000
 
     const created = []
@@ -81,7 +100,8 @@ export default async function cycleRoutes(app) {
 
     return {
       ok: true,
-      message: `${created.length} peças enfileiradas. Acompanhe em /criados.`,
+      planSource,
+      message: `${created.length} peças enfileiradas (${planSource}). Acompanhe em /criados.`,
       items: created,
     }
   })
