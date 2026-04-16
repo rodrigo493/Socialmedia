@@ -20,7 +20,9 @@ Regras de formato (OBRIGATORIO):
 - Mix variado de formatos: carrosseis (educativo/posicionamento), reels (impacto/storytelling) e stories (bastidor/leveza).
 - Headlines diretas, em portugues do Brasil, com tom da marca (sofisticado, direto, sem clickbait barato).
 - Copys de carrossel: maximo 5 slides, cada slide com headline curta (max 60 chars) e subtexto (max 100 chars).
-- Reels: voiceText curto (60-100 palavras), cinematografico, primeira frase ja prende.
+- Reels: voiceText curto (60-100 palavras), primeira frase ja prende. DOIS modos:
+  * mode='cinematic' (default): vídeo silencioso editorial, B-roll, sem rosto humano. Use para storytelling abstrato, mood pieces.
+  * mode='talking-head': uma influencer virtual aparece falando o script com lip-sync. SEMPRE use este modo quando o reel for APRESENTACAO/DEMONSTRACAO de um produto especifico (a foto do produto vira o cenario atras dela). Tambem use para depoimento, dica direta ao publico, anuncio.
 - Stories: tema unificado, 4-6 frames.
 
 Regras de conteudo (OBRIGATORIO):
@@ -39,11 +41,12 @@ const PLAN_SCHEMA = {
         type: 'object',
         properties: {
           type: { type: 'string', enum: ['carousel', 'reel', 'story'], description: 'Formato da peca' },
+          mode: { type: 'string', enum: ['cinematic', 'talking-head', ''], description: 'Apenas para reel: cinematic (sem fala) ou talking-head (influencer virtual fala o script com lip-sync — use SEMPRE para apresentacao de produto). Vazio para outros tipos.' },
           agent: { type: 'string', enum: ['caio-carrossel', 'davi-destaque', 'elisa-efemera'], description: 'Agente responsavel: carousel->caio-carrossel, reel->davi-destaque, story->elisa-efemera' },
           title: { type: 'string', description: 'Titulo curto que resume a peca (max 80 chars)' },
           topic: { type: 'string', description: 'Para carrossel: tema/area (ex: pricing, gestao, equipamento). Vazio para outros tipos.' },
           caption: { type: 'string', description: 'Legenda do post para Instagram (max 300 chars). Sempre presente.' },
-          voiceText: { type: 'string', description: 'Para reel: roteiro narrado em 60-100 palavras. Vazio para outros tipos.' },
+          voiceText: { type: 'string', description: 'Para reel: roteiro narrado em 60-100 palavras (no talking-head, e o script que a influencer fala). Vazio para outros tipos.' },
           frames: { type: 'integer', description: 'Para story: numero de frames (4-6). Zero para outros tipos.' },
           slides: {
             type: 'array',
@@ -60,7 +63,7 @@ const PLAN_SCHEMA = {
             },
           },
         },
-        required: ['type', 'agent', 'title', 'topic', 'caption', 'voiceText', 'frames', 'slides'],
+        required: ['type', 'mode', 'agent', 'title', 'topic', 'caption', 'voiceText', 'frames', 'slides'],
         additionalProperties: false,
       },
     },
@@ -91,6 +94,7 @@ function cleanItem(it) {
     if (it.topic) out.topic = it.topic
   }
   if (it.type === 'reel' && it.voiceText) out.voiceText = it.voiceText
+  if (it.type === 'reel' && it.mode && it.mode !== '') out.mode = it.mode
   if (it.type === 'story' && it.frames > 0) out.frames = it.frames
   return out
 }

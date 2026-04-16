@@ -89,10 +89,19 @@ export default async function mediaRoutes(app) {
         // Se item pediu talking-head via HeyGen
         if (item.mode === 'talking-head' && (item.voiceText || item.script)) {
           const videoPath = path.join(itemDir, 'video-final.mp4')
+          // Se tem produto referenciado, usa como background do HeyGen
+          let bg = '#0B0B0C'
+          if (productRefs.products[0]) {
+            const baseUrl = process.env.PUBLIC_BASE_URL || (process.env.CORS_ORIGIN || '').split(',')[0] || ''
+            if (baseUrl) {
+              bg = { type: 'image', url: `${baseUrl}/products-media/${productRefs.products[0].primaryImageRel}` }
+            }
+          }
           await heygen.generateVideo({
             avatarId: item.avatarId || process.env.HEYGEN_AVATAR_ID,
             text: item.voiceText || item.script,
             outPath: videoPath,
+            background: bg,
           })
           media.push({ role: 'video', path: `${item.id}/video-final.mp4`, mime: 'video/mp4' })
         } else {

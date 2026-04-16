@@ -41,7 +41,18 @@ export async function listVoices() {
 }
 
 // Gera vídeo talking head. Polling até ficar pronto (demora 1-3 min).
+// background pode ser:
+//   - string hex/rgb (#0B0B0C) → fundo de cor solida
+//   - { type: 'image', url: 'https://...' } → fundo de imagem (precisa URL publica)
 export async function generateVideo({ avatarId, voiceId, text, outPath, background = '#0B0B0C', timeoutMs = 10 * 60 * 1000, pollMs = 10_000 }) {
+  // Normaliza background
+  let bgPayload
+  if (typeof background === 'object' && background?.type === 'image' && background.url) {
+    bgPayload = { type: 'image', url: background.url, fit: 'cover' }
+  } else {
+    bgPayload = { type: 'color', value: typeof background === 'string' ? background : '#0B0B0C' }
+  }
+
   // 1) submit
   const body = {
     video_inputs: [{
@@ -49,7 +60,7 @@ export async function generateVideo({ avatarId, voiceId, text, outPath, backgrou
       voice: voiceId
         ? { type: 'text', input_text: text, voice_id: voiceId }
         : { type: 'text', input_text: text, voice_id: 'f9c4e8a5ab7a45e8a9f3ab58abb4b4ef' /* fallback pt-BR female */ },
-      background: { type: 'color', value: background },
+      background: bgPayload,
     }],
     dimension: { width: 720, height: 1280 }, // 9:16 pra reels
     aspect_ratio: '9:16',

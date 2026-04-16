@@ -91,6 +91,8 @@ export default async function itemRoutes(app) {
       ...('script' in draft ? { script: draft.script } : {}),
       ...('voiceText' in draft ? { voiceText: draft.voiceText } : {}),
       ...('productSlugs' in draft ? { productSlugs: draft.productSlugs } : {}),
+      ...('mode' in draft ? { mode: draft.mode } : {}),
+      ...('avatarId' in draft ? { avatarId: draft.avatarId } : {}),
       source: { origin: 'chat' },
     }
     await ensureDir()
