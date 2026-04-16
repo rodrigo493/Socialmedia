@@ -7,6 +7,7 @@
 
 import Anthropic from '@anthropic-ai/sdk'
 import { loadBrandContext } from './context.js'
+import * as productMatcher from './productMatcher.js'
 
 const MODEL = 'claude-opus-4-6'
 
@@ -25,7 +26,8 @@ Regras de formato (OBRIGATORIO):
 Regras de conteudo (OBRIGATORIO):
 - BASEIE-SE no contexto da marca e na analise de concorrentes que vai receber. NAO invente fatos genericos.
 - Topicos devem refletir: dores reais do publico (donos de studio, fisios, atletas), posicionamento da Live Equipamentos, gaps que os concorrentes nao estao explorando.
-- Evite clichês de Pilates ("transforme seu corpo", "vida saudavel"). Seja especifico.`
+- Evite clichês de Pilates ("transforme seu corpo", "vida saudavel"). Seja especifico.
+- IMPORTANTE — PRODUTOS: voce vai receber a lista de produtos reais que a marca fabrica. Use os NOMES desses produtos nos titulos/captions/scripts quando fizer sentido — assim o sistema usa as fotos reais como referencia visual ao gerar imagem/video. Nao invente nomes de produtos que nao estao na lista.`
 
 const PLAN_SCHEMA = {
   type: 'object',
@@ -67,10 +69,17 @@ const PLAN_SCHEMA = {
   additionalProperties: false,
 }
 
-function buildContextBlock(ctx) {
+function buildContextBlock(ctx, products) {
   const parts = []
   if (ctx.company) parts.push(`### CONTEXTO DA MARCA (Live Equipamentos)\n\n${ctx.company}`)
   if (ctx.consolidated) parts.push(`### ANALISE DE CONCORRENTES E PERFIL PROPRIO\n\n${ctx.consolidated}`)
+  if (products && products.length) {
+    const lines = products.map(p => {
+      const aliases = p.terms.filter(t => t.toLowerCase() !== p.name.toLowerCase()).slice(0, 5)
+      return `- ${p.name}${aliases.length ? ` (tambem chamado: ${aliases.join(', ')})` : ''}`
+    })
+    parts.push(`### PRODUTOS DA MARCA (use esses nomes nos titulos/captions quando relevante)\n\n${lines.join('\n')}`)
+  }
   return parts.join('\n\n---\n\n')
 }
 
@@ -98,13 +107,14 @@ export async function generatePlan({ count = 7, log } = {}) {
     return null
   }
   const ctx = await loadBrandContext()
-  if (!ctx.hasAny) {
-    log?.warn('contentPlanner: sem contexto (company.md / consolidated-analysis.md) — fallback')
+  const products = await productMatcher.listAll()
+  if (!ctx.hasAny && !products.length) {
+    log?.warn('contentPlanner: sem contexto e sem produtos — fallback')
     return null
   }
 
   const client = new Anthropic()
-  const contextBlock = buildContextBlock(ctx)
+  const contextBlock = buildContextBlock(ctx, products)
 
   try {
     const response = await client.messages.create({
