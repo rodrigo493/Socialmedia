@@ -6,6 +6,7 @@ import * as veo from '../services/veo.js'
 import * as eleven from '../services/elevenlabs.js'
 import * as ffmpeg from '../services/ffmpeg.js'
 import * as heygen from '../services/heygen.js'
+import * as productMatcher from '../services/productMatcher.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(__dirname, '..', '..', '..', '..')
@@ -65,13 +66,23 @@ export default async function mediaRoutes(app) {
       const media = []
       const itemDir = path.join(CRIADOS, item.id)
 
+      // Resolve referencias de produto (auto-detecta ou usa item.productSlugs)
+      const productRefs = await productMatcher.resolveForItem(item)
+      const refImagePath = productRefs.products[0]?.primaryImagePath || null
+      if (refImagePath) {
+        item.productRefs = productRefs.products.map(p => ({ slug: p.slug, name: p.name }))
+        item.productRefSource = productRefs.source
+      }
+
       if (item.type === 'carousel' && Array.isArray(item.slides)) {
         const total = item.slides.length
         for (const slide of item.slides) {
           const prompt = nano.carouselSlidePrompt({ slide, index: slide.idx, total })
           const file = `slide-${String(slide.idx).padStart(2, '0')}.png`
           const outPath = path.join(itemDir, file)
-          await nano.generateImage({ prompt, outPath, aspectRatio: '4:5' })
+          // Usa imagem do produto como referencia apenas no slide 1 ("hook visual")
+          const useRef = refImagePath && slide.idx === 1 ? refImagePath : undefined
+          await nano.generateImage({ prompt, outPath, aspectRatio: '4:5', referenceImagePath: useRef })
           media.push({ role: 'slide', index: slide.idx, path: `${item.id}/${file}`, mime: 'image/png' })
         }
       } else if (item.type === 'reel' || item.type === 'tiktok') {
@@ -85,10 +96,10 @@ export default async function mediaRoutes(app) {
           })
           media.push({ role: 'video', path: `${item.id}/video-final.mp4`, mime: 'video/mp4' })
         } else {
-          // Vídeo cinematográfico Veo 3
+          // Vídeo cinematográfico Veo 3 (com imagem de produto como starting frame se houver)
           const prompt = veo.reelPromptFromScript({ title: item.title, script: item.script || item.caption })
           const videoPath = path.join(itemDir, 'video.mp4')
-          await veo.generateVideo({ prompt, outPath: videoPath, aspectRatio: '9:16' })
+          await veo.generateVideo({ prompt, outPath: videoPath, aspectRatio: '9:16', referenceImagePath: refImagePath || undefined })
 
           // Se tiver voiceText, gera voz ElevenLabs e mux
           if (item.voiceText) {
@@ -122,7 +133,9 @@ export default async function mediaRoutes(app) {
           ].filter(Boolean).join(' ')
           const f = `frame-${String(i).padStart(2,'0')}.png`
           const outPath = path.join(itemDir, f)
-          await nano.generateImage({ prompt, outPath, aspectRatio: '9:16' })
+          // Primeiro frame usa imagem de referencia se disponivel
+          const useRef = refImagePath && i === 1 ? refImagePath : undefined
+          await nano.generateImage({ prompt, outPath, aspectRatio: '9:16', referenceImagePath: useRef })
           media.push({ role: 'story_frame', index: i, path: `${item.id}/${f}`, mime: 'image/png' })
         }
       } else if (item.type === 'influencer_brief') {

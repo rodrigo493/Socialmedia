@@ -90,6 +90,7 @@ export default async function itemRoutes(app) {
       ...('persona' in draft ? { persona: draft.persona } : {}),
       ...('script' in draft ? { script: draft.script } : {}),
       ...('voiceText' in draft ? { voiceText: draft.voiceText } : {}),
+      ...('productSlugs' in draft ? { productSlugs: draft.productSlugs } : {}),
       source: { origin: 'chat' },
     }
     await ensureDir()

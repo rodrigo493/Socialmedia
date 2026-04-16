@@ -2,6 +2,7 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 import { pipeline } from 'node:stream/promises'
 import { fileURLToPath } from 'node:url'
+import * as productMatcher from '../services/productMatcher.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(__dirname, '..', '..', '..', '..')
@@ -21,6 +22,20 @@ async function safeJoin(base, p) {
 }
 
 export default async function productsRoutes(app) {
+  // Sugere produtos para um item baseado em titulo+caption
+  // Body: { title?, caption?, script?, voiceText?, topic?, productSlugs? }
+  app.post('/api/v1/products/suggest', async (req) => {
+    const result = await productMatcher.resolveForItem(req.body || {})
+    return {
+      source: result.source,
+      products: result.products.map(p => ({
+        slug: p.slug,
+        name: p.name,
+        primaryImage: `/products-media/${p.primaryImageRel}`,
+      })),
+    }
+  })
+
   // Lista produtos
   app.get('/api/v1/products', async () => {
     await fs.mkdir(PRODUCTS, { recursive: true })

@@ -22,6 +22,9 @@ export default function Detail() {
   const [done, setDone] = useState(false)
   const [caption, setCaption] = useState('')
   const [error, setError] = useState(null)
+  const [allProducts, setAllProducts] = useState([])
+  const [suggested, setSuggested] = useState({ source: null, products: [] })
+  const [showProductPicker, setShowProductPicker] = useState(false)
 
   async function load() {
     setLoading(true)
@@ -36,12 +39,37 @@ export default function Detail() {
   }
   useEffect(() => { load() }, [id])
 
+  // Lista geral de produtos (para o picker)
+  useEffect(() => {
+    fetch('/api/v1/products').then(r => r.json()).then(setAllProducts).catch(() => {})
+  }, [])
+
+  // Pede sugestao quando item carrega ou productSlugs muda
+  useEffect(() => {
+    if (!m) return
+    fetch('/api/v1/products/suggest', {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        title: m.title, caption: m.caption, script: m.script,
+        voiceText: m.voiceText, topic: m.topic, productSlugs: m.productSlugs,
+      }),
+    }).then(r => r.json()).then(setSuggested).catch(() => {})
+  }, [m?.id, m?.productSlugs])
+
   // Poll enquanto tiver gerando
   useEffect(() => {
     if (m?.status !== 'generating') return
     const t = setInterval(load, 10000)
     return () => clearInterval(t)
   }, [m?.status, id])
+
+  async function setProductSlugs(slugs) {
+    await fetch(`/api/v1/items/${id}`, {
+      method: 'PATCH', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ productSlugs: slugs }),
+    })
+    load()
+  }
 
   if (loading) return <div className="py-32 text-center font-display italic text-2xl text-dust">carregando…</div>
 
@@ -197,6 +225,64 @@ export default function Detail() {
 
             {error && <div className="mt-3 font-mono text-[11px] text-onair border border-onair/60 p-2">{error}</div>}
           </div>
+
+          {/* Referencias de produto */}
+          {(allProducts.length > 0 || suggested.products.length > 0) && (
+            <div className="border border-wire p-4">
+              <div className="flex items-center justify-between mb-3">
+                <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-dust">
+                  Refs de produto {suggested.source === 'auto' ? '(sugerido)' : suggested.source === 'manual' ? '(manual)' : suggested.source === 'manual-empty' ? '(desativado)' : ''}
+                </div>
+                <button
+                  onClick={() => setShowProductPicker(v => !v)}
+                  className="font-mono text-[9px] uppercase tracking-[0.25em] text-dust hover:text-paper">
+                  {showProductPicker ? '× fechar' : '+ editar'}
+                </button>
+              </div>
+
+              {suggested.products.length > 0 ? (
+                <div className="flex gap-2 flex-wrap">
+                  {suggested.products.map(p => (
+                    <div key={p.slug} className="flex items-center gap-2 border border-wire bg-coal px-2 py-1">
+                      <img src={p.primaryImage} alt={p.name} className="w-8 h-8 object-cover" />
+                      <span className="font-mono text-[10px] text-paper">{p.name}</span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="font-mono text-[10px] text-dust">Nenhum produto referenciado</div>
+              )}
+
+              {showProductPicker && (
+                <div className="mt-4 border-t border-wire pt-3">
+                  <div className="font-mono text-[9px] uppercase tracking-[0.25em] text-dust mb-2">Escolher produtos:</div>
+                  <div className="flex gap-2 flex-wrap mb-3">
+                    {allProducts.map(p => {
+                      const current = m.productSlugs ?? suggested.products.map(x => x.slug)
+                      const isSelected = current.includes(p.slug)
+                      return (
+                        <button
+                          key={p.slug}
+                          onClick={() => {
+                            const base = m.productSlugs ?? suggested.products.map(x => x.slug)
+                            const next = isSelected ? base.filter(s => s !== p.slug) : [...base, p.slug]
+                            setProductSlugs(next)
+                          }}
+                          className={`font-mono text-[10px] px-2 py-1 border ${isSelected ? 'border-paper text-paper bg-coal' : 'border-wire text-dust hover:text-paper'}`}>
+                          {p.name || p.slug}
+                        </button>
+                      )
+                    })}
+                  </div>
+                  <button
+                    onClick={() => setProductSlugs([])}
+                    className="font-mono text-[9px] uppercase tracking-[0.25em] text-onair hover:text-paper">
+                    desativar referência
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
 
           {m.status === 'error' && m.lastError && (
             <div className="border border-onair/60 bg-onair/10 p-4">

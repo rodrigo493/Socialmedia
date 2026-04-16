@@ -19,14 +19,22 @@ async function gfetch(url, init = {}) {
   return res.json()
 }
 
-export async function generateVideo({ prompt, outPath, aspectRatio = '9:16', pollMs = 10000, timeoutMs = 6 * 60 * 1000 }) {
+export async function generateVideo({ prompt, outPath, aspectRatio = '9:16', pollMs = 10000, timeoutMs = 6 * 60 * 1000, referenceImagePath }) {
   if (!KEY) throw new Error('GOOGLE_AI_STUDIO_KEY faltando no .env')
+
+  const instance = { prompt }
+  if (referenceImagePath) {
+    const buf = await fs.readFile(referenceImagePath)
+    const ext = path.extname(referenceImagePath).toLowerCase()
+    const mime = { '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp' }[ext] || 'image/png'
+    instance.image = { bytesBase64Encoded: buf.toString('base64'), mimeType: mime }
+  }
 
   // 1) submit
   const submit = await gfetch(`${BASE}/models/${MODEL}:predictLongRunning`, {
     method: 'POST',
     body: JSON.stringify({
-      instances: [{ prompt }],
+      instances: [instance],
       parameters: { aspectRatio },
     }),
   })
