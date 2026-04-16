@@ -38,12 +38,18 @@ export async function syncOnce({ log } = {}) {
   for (const folder of subfolders) {
     const slug = slugify(folder.name)
     if (!slug) continue
-    const productDir = path.join(PRODUCTS, slug)
-    await fs.mkdir(productDir, { recursive: true })
+    // Convencao: pastas que comecam com _ sao ignoradas (ex: _RASCUNHOS)
+    if (folder.name.startsWith('_')) continue
 
     // 2) lista arquivos de imagem dentro da subpasta
     const files = await drive.list({ folderId: folder.id })
     const images = files.filter(f => IMG_MIMES.has(f.mimeType))
+
+    // Pasta sem imagens (ex: pasta so com videos) — ignora, nao cria produto fantasma
+    if (!images.length) continue
+
+    const productDir = path.join(PRODUCTS, slug)
+    await fs.mkdir(productDir, { recursive: true })
 
     let downloaded = 0
     let skipped = 0
