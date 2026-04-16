@@ -44,10 +44,18 @@ export async function generateVideo({ prompt, outPath, aspectRatio = '9:16', pol
   if (op.error) throw new Error('Veo error: ' + JSON.stringify(op.error))
 
   // 3) download
-  const videos = op.response?.generateVideoResponse?.generatedSamples || op.response?.videos || []
+  const gvr = op.response?.generateVideoResponse
+  const videos = gvr?.generatedSamples || op.response?.videos || []
   const first = videos[0]
   const fileUri = first?.video?.uri || first?.uri
-  if (!fileUri) throw new Error('Veo resposta sem uri: ' + JSON.stringify(op).slice(0, 500))
+  if (!fileUri) {
+    // Caso comum: filtro RAI bloqueou o video (audio ofensivo, conteudo sensivel, etc.)
+    if (gvr?.raiMediaFilteredCount > 0) {
+      const reasons = (gvr.raiMediaFilteredReasons || []).join(' | ')
+      throw new Error(`Veo bloqueou o video pelo filtro de seguranca (RAI). Motivo: ${reasons || 'nao detalhado'}`)
+    }
+    throw new Error('Veo resposta sem uri: ' + JSON.stringify(op).slice(0, 500))
+  }
 
   // O file URI tipicamente requer x-goog-api-key também
   const dl = await fetch(fileUri, { headers: { 'x-goog-api-key': KEY } })
@@ -60,13 +68,13 @@ export async function generateVideo({ prompt, outPath, aspectRatio = '9:16', pol
 }
 
 // Helper de prompt — roteiro curto a partir do texto do agente
-export function reelPromptFromScript({ title, script, brand = 'Live Equipamentos', brandContext = '' }) {
+export function reelPromptFromScript({ title, script, brand = 'Live Equipamentos' }) {
   return [
     `Vídeo vertical (9:16) de 8 segundos para Instagram Reel da marca "${brand}" (equipamentos de Pilates premium no Brasil).`,
     `Tema: ${title}.`,
-    script ? `Direção visual: ${script.slice(0, 600)}` : '',
+    script ? `Direção visual: ${script.slice(0, 400)}` : '',
     `Estética: cinematográfica, iluminação natural suave, tons levemente dessaturados, movimento de câmera sutil, alta qualidade editorial.`,
     `Sem texto na tela. Sem logos.`,
-    brandContext ? `\n--- DIRETRIZES DA MARCA E REFERÊNCIAS DE CONCORRENTES ---\n${brandContext}` : '',
+    `IMPORTANTE: gere video totalmente silencioso, sem audio, sem narracao, sem trilha sonora, sem dialogo. Apenas imagem.`,
   ].filter(Boolean).join('\n')
 }
