@@ -5,6 +5,21 @@ export default function Products() {
   const [loading, setLoading] = useState(true)
   const [selected, setSelected] = useState(null)
   const [creating, setCreating] = useState(false)
+  const [syncing, setSyncing] = useState(false)
+  const [syncResult, setSyncResult] = useState(null)
+
+  async function importDrive() {
+    if (!confirm('Importar subpastas/imagens do Google Drive como produtos?')) return
+    setSyncing(true); setSyncResult(null)
+    try {
+      const r = await fetch('/api/v1/products/sync-drive', { method: 'POST' })
+      const data = await r.json()
+      setSyncResult(data)
+      if (data.ok) await load()
+    } catch (e) {
+      setSyncResult({ ok: false, error: String(e.message || e) })
+    } finally { setSyncing(false) }
+  }
 
   async function load() {
     setLoading(true)
@@ -36,12 +51,34 @@ export default function Products() {
               <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-dust mt-2">no catálogo</div>
             </div>
             <button
+              onClick={importDrive}
+              disabled={syncing}
+              className="font-mono text-[11px] uppercase tracking-[0.22em] text-dust border border-wire hover:text-paper hover:border-paper px-4 py-3 disabled:opacity-40"
+            >{syncing ? 'Importando…' : '↓ Importar do Drive'}</button>
+            <button
               onClick={() => setCreating(true)}
               className="font-mono text-[11px] uppercase tracking-[0.22em] text-paper bg-onair border border-onair px-4 py-3 hover:bg-[#C9241E]"
             >+ Novo produto</button>
           </div>
         </div>
       </section>
+
+      {syncResult && (
+        <div className={`mb-6 border p-4 ${syncResult.ok ? 'border-signal/60 bg-signal/10' : 'border-onair/60 bg-onair/10'}`}>
+          {syncResult.ok ? (
+            <div>
+              <div className="font-mono text-[11px] uppercase tracking-[0.25em] text-signal mb-2">
+                ✓ Sync concluído — {syncResult.products?.length || 0} produto(s), {syncResult.totalDownloaded} baixado(s), {syncResult.totalSkipped} já em dia
+              </div>
+              <div className="font-mono text-[10px] text-dust">
+                {(syncResult.products || []).map(p => `${p.name} (${p.downloaded}+${p.skipped})`).join(' · ')}
+              </div>
+            </div>
+          ) : (
+            <div className="font-mono text-[11px] text-onair">Erro: {syncResult.error}</div>
+          )}
+        </div>
+      )}
 
       {creating && <NewProductForm onDone={(slug) => { setCreating(false); setSelected(slug); }} onCancel={() => setCreating(false)} />}
 

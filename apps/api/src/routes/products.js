@@ -3,6 +3,7 @@ import path from 'node:path'
 import { pipeline } from 'node:stream/promises'
 import { fileURLToPath } from 'node:url'
 import * as productMatcher from '../services/productMatcher.js'
+import * as driveSync from '../services/driveSync.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(__dirname, '..', '..', '..', '..')
@@ -22,6 +23,16 @@ async function safeJoin(base, p) {
 }
 
 export default async function productsRoutes(app) {
+  // Importa subpastas/imagens do Google Drive como produtos.
+  // Cada subpasta da pasta-raiz (GOOGLE_DRIVE_FOLDER_ID) vira um produto.
+  app.post('/api/v1/products/sync-drive', async (req, reply) => {
+    try {
+      const result = await driveSync.syncOnce({ log: app.log })
+      if (!result.ok) { reply.code(503); return result }
+      return result
+    } catch (err) { reply.code(500); return { error: String(err.message || err) } }
+  })
+
   // Sugere produtos para um item baseado em titulo+caption
   // Body: { title?, caption?, script?, voiceText?, topic?, productSlugs? }
   app.post('/api/v1/products/suggest', async (req) => {
