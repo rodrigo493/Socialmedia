@@ -44,7 +44,9 @@ if (STATIC_DIR && fssync.existsSync(STATIC_DIR)) {
 // --- Auth middleware (antes dos routes) -----------------------------------
 const authSvc = await import('./services/auth.js')
 const PUBLIC_PREFIXES = [
-  '/api/v1/auth/',
+  '/api/v1/auth/status',
+  '/api/v1/auth/setup',
+  '/api/v1/auth/login',
   '/api/v1/health',
   '/api/v1/brand/logo/image', // imagens da logo servidas como <img>, sem Bearer
   '/api/v1/brand/manual/',     // arquivos do manual da marca servidos inline
