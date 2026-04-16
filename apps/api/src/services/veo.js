@@ -7,7 +7,10 @@ import path from 'node:path'
 const KEY = process.env.GOOGLE_AI_STUDIO_KEY
 // Modelos disponíveis: veo-3.0-fast-generate-001 · veo-3.0-generate-001 ·
 // veo-3.1-fast-generate-preview · veo-3.1-generate-preview · veo-3.1-lite-generate-preview
-const MODEL = process.env.VEO_MODEL || 'veo-3.1-generate-preview'
+// veo-3.0-fast-generate-001: nao gera audio, RAI muito mais permissivo,
+// ideal quando o fluxo ja produz a voz via ElevenLabs + mux com ffmpeg.
+// Alternativas: veo-3.1-generate-preview (audio inferido, RAI agressivo)
+const MODEL = process.env.VEO_MODEL || 'veo-3.0-fast-generate-001'
 const BASE = 'https://generativelanguage.googleapis.com/v1beta'
 
 async function gfetch(url, init = {}) {
