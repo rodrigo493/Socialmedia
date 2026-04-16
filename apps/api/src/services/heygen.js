@@ -40,6 +40,23 @@ export async function listVoices() {
   }))
 }
 
+// Cache de voz default — busca da API e escolhe a primeira pt-BR feminina.
+let _defaultVoiceId = null
+async function pickDefaultVoiceId() {
+  if (_defaultVoiceId) return _defaultVoiceId
+  if (process.env.HEYGEN_VOICE_ID) { _defaultVoiceId = process.env.HEYGEN_VOICE_ID; return _defaultVoiceId }
+  const voices = await listVoices()
+  // prefere pt-BR feminina → qualquer pt-BR → qualquer portuguesa → primeira
+  const preferred =
+    voices.find(v => /pt-br|portuguese.*brazil/i.test(v.language || '') && /female|woman/i.test(v.gender || '')) ||
+    voices.find(v => /pt-br|portuguese.*brazil/i.test(v.language || '')) ||
+    voices.find(v => /portuguese/i.test(v.language || '')) ||
+    voices[0]
+  if (!preferred) throw new Error('HeyGen: nenhuma voz disponivel na conta')
+  _defaultVoiceId = preferred.id
+  return _defaultVoiceId
+}
+
 // Gera vídeo talking head. Polling até ficar pronto (demora 1-3 min).
 // background pode ser:
 //   - string hex/rgb (#0B0B0C) → fundo de cor solida
@@ -53,13 +70,14 @@ export async function generateVideo({ avatarId, voiceId, text, outPath, backgrou
     bgPayload = { type: 'color', value: typeof background === 'string' ? background : '#0B0B0C' }
   }
 
+  // Resolve voice_id dinamicamente se nao passado explicitamente
+  const finalVoiceId = voiceId || await pickDefaultVoiceId()
+
   // 1) submit
   const body = {
     video_inputs: [{
       character: { type: 'avatar', avatar_id: avatarId, avatar_style: 'normal' },
-      voice: voiceId
-        ? { type: 'text', input_text: text, voice_id: voiceId }
-        : { type: 'text', input_text: text, voice_id: 'f9c4e8a5ab7a45e8a9f3ab58abb4b4ef' /* fallback pt-BR female */ },
+      voice: { type: 'text', input_text: text, voice_id: finalVoiceId },
       background: bgPayload,
     }],
     dimension: { width: 720, height: 1280 }, // 9:16 pra reels
