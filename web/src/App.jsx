@@ -28,7 +28,7 @@ function Guard({ children }) {
   useEffect(() => {
     const t = getToken()
     if (!t) { setChecked(true); setOk(false); nav('/login'); return }
-    fetch('/api/v1/auth/me').then(r => {
+    fetch('/api/v1/auth/me', { headers: { authorization: `Bearer ${t}` } }).then(r => {
       if (r.ok) { setOk(true) } else { setOk(false); nav('/login') }
       setChecked(true)
     }).catch(() => { setOk(false); nav('/login'); setChecked(true) })
