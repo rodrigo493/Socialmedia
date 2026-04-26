@@ -15,6 +15,7 @@ import Brand from './pages/Brand'
 import Downloads from './pages/Downloads'
 import HeyGen from './pages/HeyGen'
 import Analytics from './pages/Analytics'
+import InstagramOS from './pages/InstagramOS'
 import Login from './pages/Login'
 import { getToken } from './lib/auth'
 
@@ -60,6 +61,7 @@ export default function App() {
               <Route path="/downloads" element={<Downloads />} />
               <Route path="/heygen" element={<HeyGen />} />
               <Route path="/analytics" element={<Analytics />} />
+              <Route path="/instagram-os" element={<InstagramOS />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </Layout>

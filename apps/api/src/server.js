@@ -104,6 +104,8 @@ const dashboardMod = await import('./routes/analytics-dashboard.js')
 await app.register(dashboardMod.default)
 const cycleMod = await import('./routes/cycle.js')
 await app.register(cycleMod.default)
+const instagramOSMod = await import('./routes/instagramOS.js')
+await app.register(instagramOSMod.default)
 
 // --- Reports ---------------------------------------------------------------
 
@@ -227,6 +229,10 @@ app.get('/api/v1/scheduler/status', async () => ({
     ? 'Scheduler ATIVO — eventos approved do Calendar serão publicados automaticamente.'
     : 'Scheduler em DRY-RUN — apenas loga. Para ativar publicação automática: SCHEDULER_AUTO_PUBLISH=true no .env.',
 }))
+
+// --- Instagram OS scheduler ------------------------------------------------
+const igOSMod = await import('./services/instagramOS.js')
+igOSMod.startWeeklyScheduler(app.log)
 
 // --- Health ----------------------------------------------------------------
 app.get('/api/v1/health', async () => ({ ok: true, root: ROOT, output: OUTPUT }))

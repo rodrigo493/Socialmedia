@@ -16,6 +16,7 @@ const nav = [
   { to: '/heygen', label: 'HeyGen', code: '11' },
   { to: '/downloads', label: 'Downloads', code: '12' },
   { to: '/agentes', label: 'Agentes', code: '13' },
+  { to: '/instagram-os', label: 'Instagram OS', code: '14' },
 ]
 
 function Clock() {

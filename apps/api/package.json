@@ -17,6 +17,7 @@
     "fastify": "^4.28.1",
     "googleapis": "^171.4.0",
     "jsonwebtoken": "^9.0.3",
+    "nodemailer": "^6.10.1",
     "playwright": "^1.59.1"
   }
 }
