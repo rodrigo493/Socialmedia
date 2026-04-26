@@ -36,7 +36,7 @@ if (STATIC_DIR && fssync.existsSync(STATIC_DIR)) {
     if (url.startsWith('/api/') || url.startsWith('/media/') || url.startsWith('/products-media/')) {
       return reply.code(404).send({ error: 'not found' })
     }
-    return reply.sendFile('index.html')
+    return reply.type('text/html').send(fssync.readFileSync(path.join(STATIC_DIR, 'index.html')))
   })
   app.log.info({ staticDir: STATIC_DIR }, 'serving frontend estático')
 }
