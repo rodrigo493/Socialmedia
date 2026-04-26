@@ -13,7 +13,9 @@ window.fetch = async (input, init = {}) => {
   if (url.startsWith('/api/') && !url.startsWith('/api/v1/auth/login') && !url.startsWith('/api/v1/auth/setup')) {
     const t = getToken()
     if (t) {
-      init.headers = { ...(init.headers || {}), Authorization: 'Bearer ' + t }
+      const h = init.headers || {}
+      const hasAuth = Object.keys(h).some(k => k.toLowerCase() === 'authorization')
+      if (!hasAuth) init.headers = { ...h, Authorization: 'Bearer ' + t }
     }
   }
   const res = await original(input, init)
